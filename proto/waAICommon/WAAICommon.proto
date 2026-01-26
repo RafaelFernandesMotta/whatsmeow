@@ -349,6 +349,7 @@ message BotImagineMetadata {
 	}
 
 	optional ImagineType imagineType = 1;
+	optional string shortPrompt = 2;
 }
 
 message BotAgeCollectionMetadata {
