@@ -24,15 +24,16 @@ const (
 type StatusAttribution_Type int32
 
 const (
-	StatusAttribution_UNKNOWN        StatusAttribution_Type = 0
-	StatusAttribution_RESHARE        StatusAttribution_Type = 1
-	StatusAttribution_EXTERNAL_SHARE StatusAttribution_Type = 2
-	StatusAttribution_MUSIC          StatusAttribution_Type = 3
-	StatusAttribution_STATUS_MENTION StatusAttribution_Type = 4
-	StatusAttribution_GROUP_STATUS   StatusAttribution_Type = 5
-	StatusAttribution_RL_ATTRIBUTION StatusAttribution_Type = 6
-	StatusAttribution_AI_CREATED     StatusAttribution_Type = 7
-	StatusAttribution_LAYOUTS        StatusAttribution_Type = 8
+	StatusAttribution_UNKNOWN              StatusAttribution_Type = 0
+	StatusAttribution_RESHARE              StatusAttribution_Type = 1
+	StatusAttribution_EXTERNAL_SHARE       StatusAttribution_Type = 2
+	StatusAttribution_MUSIC                StatusAttribution_Type = 3
+	StatusAttribution_STATUS_MENTION       StatusAttribution_Type = 4
+	StatusAttribution_GROUP_STATUS         StatusAttribution_Type = 5
+	StatusAttribution_RL_ATTRIBUTION       StatusAttribution_Type = 6
+	StatusAttribution_AI_CREATED           StatusAttribution_Type = 7
+	StatusAttribution_LAYOUTS              StatusAttribution_Type = 8
+	StatusAttribution_STATUS_CLOSE_SHARING StatusAttribution_Type = 9
 )
 
 // Enum value maps for StatusAttribution_Type.
@@ -47,17 +48,19 @@ var (
 		6: "RL_ATTRIBUTION",
 		7: "AI_CREATED",
 		8: "LAYOUTS",
+		9: "STATUS_CLOSE_SHARING",
 	}
 	StatusAttribution_Type_value = map[string]int32{
-		"UNKNOWN":        0,
-		"RESHARE":        1,
-		"EXTERNAL_SHARE": 2,
-		"MUSIC":          3,
-		"STATUS_MENTION": 4,
-		"GROUP_STATUS":   5,
-		"RL_ATTRIBUTION": 6,
-		"AI_CREATED":     7,
-		"LAYOUTS":        8,
+		"UNKNOWN":              0,
+		"RESHARE":              1,
+		"EXTERNAL_SHARE":       2,
+		"MUSIC":                3,
+		"STATUS_MENTION":       4,
+		"GROUP_STATUS":         5,
+		"RL_ATTRIBUTION":       6,
+		"AI_CREATED":           7,
+		"LAYOUTS":              8,
+		"STATUS_CLOSE_SHARING": 9,
 	}
 )
 
@@ -934,7 +937,7 @@ var File_waStatusAttributions_WAStatusAttributions_proto protoreflect.FileDescri
 
 const file_waStatusAttributions_WAStatusAttributions_proto_rawDesc = "" +
 	"\n" +
-	"/waStatusAttributions/WAStatusAttributions.proto\x12\x14WAStatusAttributions\"\xf1\x11\n" +
+	"/waStatusAttributions/WAStatusAttributions.proto\x12\x14WAStatusAttributions\"\x8b\x12\n" +
 	"\x11StatusAttribution\x12]\n" +
 	"\rstatusReshare\x18\x03 \x01(\v25.WAStatusAttributions.StatusAttribution.StatusReshareH\x00R\rstatusReshare\x12]\n" +
 	"\rexternalShare\x18\x04 \x01(\v25.WAStatusAttributions.StatusAttribution.ExternalShareH\x00R\rexternalShare\x12E\n" +
@@ -1002,7 +1005,7 @@ const file_waStatusAttributions_WAStatusAttributions_proto_rawDesc = "" +
 	"\x11artistAttribution\x18\x05 \x01(\tR\x11artistAttribution\x12\x1e\n" +
 	"\n" +
 	"isExplicit\x18\x06 \x01(\bR\n" +
-	"isExplicit\"\x96\x01\n" +
+	"isExplicit\"\xb0\x01\n" +
 	"\x04Type\x12\v\n" +
 	"\aUNKNOWN\x10\x00\x12\v\n" +
 	"\aRESHARE\x10\x01\x12\x12\n" +
@@ -1013,7 +1016,8 @@ const file_waStatusAttributions_WAStatusAttributions_proto_rawDesc = "" +
 	"\x0eRL_ATTRIBUTION\x10\x06\x12\x0e\n" +
 	"\n" +
 	"AI_CREATED\x10\a\x12\v\n" +
-	"\aLAYOUTS\x10\bB\x11\n" +
+	"\aLAYOUTS\x10\b\x12\x18\n" +
+	"\x14STATUS_CLOSE_SHARING\x10\tB\x11\n" +
 	"\x0fattributionDataB0Z.go.mau.fi/whatsmeow/proto/waStatusAttributions"
 
 var (

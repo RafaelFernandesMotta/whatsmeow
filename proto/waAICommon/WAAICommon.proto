@@ -185,6 +185,11 @@ message BotReminderMetadata {
 	optional ReminderFrequency frequency = 5;
 }
 
+message BotRenderingConfigMetadata {
+    optional string bloksVersioningId = 1;
+    optional double pixelDensity = 2;
+}
+
 message BotModelMetadata {
 	enum PremiumModelStatus {
 		UNKNOWN_STATUS = 0;
@@ -339,6 +344,14 @@ message BotQuotaMetadata {
 	repeated BotFeatureQuotaMetadata botFeatureQuotaMetadata = 1;
 }
 
+message BotGroupMetadata {
+    repeated BotGroupParticipantMetadata participantsMetadata = 1;
+}
+
+message BotGroupParticipantMetadata {
+    optional string botFbid = 1;
+}
+
 message BotImagineMetadata {
 	enum ImagineType {
 		UNKNOWN = 0;
@@ -350,6 +363,14 @@ message BotImagineMetadata {
 
 	optional ImagineType imagineType = 1;
 	optional string shortPrompt = 2;
+}
+
+message BotInfrastructureDiagnostics {
+    optional BotBackend botBackend = 1;
+    enum BotBackend {
+        AAPI = 0;
+        CLIPPY = 1;
+    }
 }
 
 message BotAgeCollectionMetadata {
@@ -774,6 +795,9 @@ message BotMetadata {
 	optional AIRegenerateMetadata regenerateMetadata = 32;
 	optional SessionTransparencyMetadata sessionTransparencyMetadata = 33;
 	optional BotDocumentMessageMetadata botDocumentMessageMetadata = 34;
+	optional BotGroupMetadata botGroupMetadata = 35;
+    optional BotRenderingConfigMetadata botRenderingConfigMetadata = 36;
+    optional BotInfrastructureDiagnostics botInfrastructureDiagnostics = 37;
 	optional bytes internalMetadata = 999;
 }
 
