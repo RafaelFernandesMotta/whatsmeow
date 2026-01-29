@@ -6441,12 +6441,13 @@ func (x *PinAction) GetPinned() bool {
 }
 
 type MuteAction struct {
-	state            protoimpl.MessageState `protogen:"open.v1"`
-	Muted            *bool                  `protobuf:"varint,1,opt,name=muted" json:"muted,omitempty"`
-	MuteEndTimestamp *int64                 `protobuf:"varint,2,opt,name=muteEndTimestamp" json:"muteEndTimestamp,omitempty"`
-	AutoMuted        *bool                  `protobuf:"varint,3,opt,name=autoMuted" json:"autoMuted,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
+	state                           protoimpl.MessageState `protogen:"open.v1"`
+	Muted                           *bool                  `protobuf:"varint,1,opt,name=muted" json:"muted,omitempty"`
+	MuteEndTimestamp                *int64                 `protobuf:"varint,2,opt,name=muteEndTimestamp" json:"muteEndTimestamp,omitempty"`
+	AutoMuted                       *bool                  `protobuf:"varint,3,opt,name=autoMuted" json:"autoMuted,omitempty"`
+	MuteEveryoneMentionEndTimestamp *int64                 `protobuf:"varint,4,opt,name=muteEveryoneMentionEndTimestamp" json:"muteEveryoneMentionEndTimestamp,omitempty"`
+	unknownFields                   protoimpl.UnknownFields
+	sizeCache                       protoimpl.SizeCache
 }
 
 func (x *MuteAction) Reset() {
@@ -6498,6 +6499,13 @@ func (x *MuteAction) GetAutoMuted() bool {
 		return *x.AutoMuted
 	}
 	return false
+}
+
+func (x *MuteAction) GetMuteEveryoneMentionEndTimestamp() int64 {
+	if x != nil && x.MuteEveryoneMentionEndTimestamp != nil {
+		return *x.MuteEveryoneMentionEndTimestamp
+	}
+	return 0
 }
 
 type ContactAction struct {
@@ -7323,12 +7331,13 @@ const file_waSyncAction_WAWebProtobufSyncAction_proto_rawDesc = "" +
 	"\x0fPushNameSetting\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\"#\n" +
 	"\tPinAction\x12\x16\n" +
-	"\x06pinned\x18\x01 \x01(\bR\x06pinned\"l\n" +
+	"\x06pinned\x18\x01 \x01(\bR\x06pinned\"\xb6\x01\n" +
 	"\n" +
 	"MuteAction\x12\x14\n" +
 	"\x05muted\x18\x01 \x01(\bR\x05muted\x12*\n" +
 	"\x10muteEndTimestamp\x18\x02 \x01(\x03R\x10muteEndTimestamp\x12\x1c\n" +
-	"\tautoMuted\x18\x03 \x01(\bR\tautoMuted\"\xcf\x01\n" +
+	"\tautoMuted\x18\x03 \x01(\bR\tautoMuted\x12H\n" +
+	"\x1fmuteEveryoneMentionEndTimestamp\x18\x04 \x01(\x03R\x1fmuteEveryoneMentionEndTimestamp\"\xcf\x01\n" +
 	"\rContactAction\x12\x1a\n" +
 	"\bfullName\x18\x01 \x01(\tR\bfullName\x12\x1c\n" +
 	"\tfirstName\x18\x02 \x01(\tR\tfirstName\x12\x16\n" +
