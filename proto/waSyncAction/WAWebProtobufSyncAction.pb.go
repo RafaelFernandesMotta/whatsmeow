@@ -571,6 +571,65 @@ func (CallLogRecord_CallResult) EnumDescriptor() ([]byte, []int) {
 	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{0, 2}
 }
 
+type SettingsSyncAction_MediaQualitySetting int32
+
+const (
+	SettingsSyncAction_MEDIA_QUALITY_UNKNOWN SettingsSyncAction_MediaQualitySetting = 0
+	SettingsSyncAction_STANDARD              SettingsSyncAction_MediaQualitySetting = 1
+	SettingsSyncAction_HD                    SettingsSyncAction_MediaQualitySetting = 2
+)
+
+// Enum value maps for SettingsSyncAction_MediaQualitySetting.
+var (
+	SettingsSyncAction_MediaQualitySetting_name = map[int32]string{
+		0: "MEDIA_QUALITY_UNKNOWN",
+		1: "STANDARD",
+		2: "HD",
+	}
+	SettingsSyncAction_MediaQualitySetting_value = map[string]int32{
+		"MEDIA_QUALITY_UNKNOWN": 0,
+		"STANDARD":              1,
+		"HD":                    2,
+	}
+)
+
+func (x SettingsSyncAction_MediaQualitySetting) Enum() *SettingsSyncAction_MediaQualitySetting {
+	p := new(SettingsSyncAction_MediaQualitySetting)
+	*p = x
+	return p
+}
+
+func (x SettingsSyncAction_MediaQualitySetting) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (SettingsSyncAction_MediaQualitySetting) Descriptor() protoreflect.EnumDescriptor {
+	return file_waSyncAction_WAWebProtobufSyncAction_proto_enumTypes[5].Descriptor()
+}
+
+func (SettingsSyncAction_MediaQualitySetting) Type() protoreflect.EnumType {
+	return &file_waSyncAction_WAWebProtobufSyncAction_proto_enumTypes[5]
+}
+
+func (x SettingsSyncAction_MediaQualitySetting) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Do not use.
+func (x *SettingsSyncAction_MediaQualitySetting) UnmarshalJSON(b []byte) error {
+	num, err := protoimpl.X.UnmarshalJSONEnum(x.Descriptor(), b)
+	if err != nil {
+		return err
+	}
+	*x = SettingsSyncAction_MediaQualitySetting(num)
+	return nil
+}
+
+// Deprecated: Use SettingsSyncAction_MediaQualitySetting.Descriptor instead.
+func (SettingsSyncAction_MediaQualitySetting) EnumDescriptor() ([]byte, []int) {
+	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{1, 0}
+}
+
 type SettingsSyncAction_DisplayMode int32
 
 const (
@@ -607,11 +666,11 @@ func (x SettingsSyncAction_DisplayMode) String() string {
 }
 
 func (SettingsSyncAction_DisplayMode) Descriptor() protoreflect.EnumDescriptor {
-	return file_waSyncAction_WAWebProtobufSyncAction_proto_enumTypes[5].Descriptor()
+	return file_waSyncAction_WAWebProtobufSyncAction_proto_enumTypes[6].Descriptor()
 }
 
 func (SettingsSyncAction_DisplayMode) Type() protoreflect.EnumType {
-	return &file_waSyncAction_WAWebProtobufSyncAction_proto_enumTypes[5]
+	return &file_waSyncAction_WAWebProtobufSyncAction_proto_enumTypes[6]
 }
 
 func (x SettingsSyncAction_DisplayMode) Number() protoreflect.EnumNumber {
@@ -630,65 +689,6 @@ func (x *SettingsSyncAction_DisplayMode) UnmarshalJSON(b []byte) error {
 
 // Deprecated: Use SettingsSyncAction_DisplayMode.Descriptor instead.
 func (SettingsSyncAction_DisplayMode) EnumDescriptor() ([]byte, []int) {
-	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{1, 0}
-}
-
-type SettingsSyncAction_MediaQualitySetting int32
-
-const (
-	SettingsSyncAction_MEDIA_QUALITY_UNKNOWN SettingsSyncAction_MediaQualitySetting = 0
-	SettingsSyncAction_STANDARD              SettingsSyncAction_MediaQualitySetting = 1
-	SettingsSyncAction_HD                    SettingsSyncAction_MediaQualitySetting = 2
-)
-
-// Enum value maps for SettingsSyncAction_MediaQualitySetting.
-var (
-	SettingsSyncAction_MediaQualitySetting_name = map[int32]string{
-		0: "MEDIA_QUALITY_UNKNOWN",
-		1: "STANDARD",
-		2: "HD",
-	}
-	SettingsSyncAction_MediaQualitySetting_value = map[string]int32{
-		"MEDIA_QUALITY_UNKNOWN": 0,
-		"STANDARD":              1,
-		"HD":                    2,
-	}
-)
-
-func (x SettingsSyncAction_MediaQualitySetting) Enum() *SettingsSyncAction_MediaQualitySetting {
-	p := new(SettingsSyncAction_MediaQualitySetting)
-	*p = x
-	return p
-}
-
-func (x SettingsSyncAction_MediaQualitySetting) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (SettingsSyncAction_MediaQualitySetting) Descriptor() protoreflect.EnumDescriptor {
-	return file_waSyncAction_WAWebProtobufSyncAction_proto_enumTypes[6].Descriptor()
-}
-
-func (SettingsSyncAction_MediaQualitySetting) Type() protoreflect.EnumType {
-	return &file_waSyncAction_WAWebProtobufSyncAction_proto_enumTypes[6]
-}
-
-func (x SettingsSyncAction_MediaQualitySetting) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Do not use.
-func (x *SettingsSyncAction_MediaQualitySetting) UnmarshalJSON(b []byte) error {
-	num, err := protoimpl.X.UnmarshalJSONEnum(x.Descriptor(), b)
-	if err != nil {
-		return err
-	}
-	*x = SettingsSyncAction_MediaQualitySetting(num)
-	return nil
-}
-
-// Deprecated: Use SettingsSyncAction_MediaQualitySetting.Descriptor instead.
-func (SettingsSyncAction_MediaQualitySetting) EnumDescriptor() ([]byte, []int) {
 	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{1, 1}
 }
 
@@ -1943,7 +1943,7 @@ type SettingsSyncAction struct {
 	IsGroupMessageNotificationEnabled    *bool                                   `protobuf:"varint,27,opt,name=isGroupMessageNotificationEnabled" json:"isGroupMessageNotificationEnabled,omitempty"`
 	IsGroupReactionsNotificationEnabled  *bool                                   `protobuf:"varint,28,opt,name=isGroupReactionsNotificationEnabled" json:"isGroupReactionsNotificationEnabled,omitempty"`
 	IsStatusNotificationEnabled          *bool                                   `protobuf:"varint,29,opt,name=isStatusNotificationEnabled" json:"isStatusNotificationEnabled,omitempty"`
-	StatusNotificationToneId             *int32                                  `protobuf:"varint,30,opt,name=statusNotificationToneId" json:"statusNotificationToneId,omitempty"`
+	StatusNotificationToneID             *int32                                  `protobuf:"varint,30,opt,name=statusNotificationToneID" json:"statusNotificationToneID,omitempty"`
 	ShouldPlaySoundForCallNotification   *bool                                   `protobuf:"varint,31,opt,name=shouldPlaySoundForCallNotification" json:"shouldPlaySoundForCallNotification,omitempty"`
 	unknownFields                        protoimpl.UnknownFields
 	sizeCache                            protoimpl.SizeCache
@@ -2182,9 +2182,9 @@ func (x *SettingsSyncAction) GetIsStatusNotificationEnabled() bool {
 	return false
 }
 
-func (x *SettingsSyncAction) GetStatusNotificationToneId() int32 {
-	if x != nil && x.StatusNotificationToneId != nil {
-		return *x.StatusNotificationToneId
+func (x *SettingsSyncAction) GetStatusNotificationToneID() int32 {
+	if x != nil && x.StatusNotificationToneID != nil {
+		return *x.StatusNotificationToneID
 	}
 	return 0
 }
@@ -6890,18 +6890,18 @@ const file_waSyncAction_WAWebProtobufSyncAction_proto_rawDesc = "" +
 	"!isGroupMessageNotificationEnabled\x18\x1b \x01(\bR!isGroupMessageNotificationEnabled\x12P\n" +
 	"#isGroupReactionsNotificationEnabled\x18\x1c \x01(\bR#isGroupReactionsNotificationEnabled\x12@\n" +
 	"\x1bisStatusNotificationEnabled\x18\x1d \x01(\bR\x1bisStatusNotificationEnabled\x12:\n" +
-	"\x18statusNotificationToneId\x18\x1e \x01(\x05R\x18statusNotificationToneId\x12N\n" +
-	"\"shouldPlaySoundForCallNotification\x18\x1f \x01(\bR\"shouldPlaySoundForCallNotification\"Y\n" +
+	"\x18statusNotificationToneID\x18\x1e \x01(\x05R\x18statusNotificationToneID\x12N\n" +
+	"\"shouldPlaySoundForCallNotification\x18\x1f \x01(\bR\"shouldPlaySoundForCallNotification\"F\n" +
+	"\x13MediaQualitySetting\x12\x19\n" +
+	"\x15MEDIA_QUALITY_UNKNOWN\x10\x00\x12\f\n" +
+	"\bSTANDARD\x10\x01\x12\x06\n" +
+	"\x02HD\x10\x02\"Y\n" +
 	"\vDisplayMode\x12\x18\n" +
 	"\x14DISPLAY_MODE_UNKNOWN\x10\x00\x12\n" +
 	"\n" +
 	"\x06ALWAYS\x10\x01\x12\t\n" +
 	"\x05NEVER\x10\x02\x12\x19\n" +
-	"\x15ONLY_WHEN_APP_IS_OPEN\x10\x03\"F\n" +
-	"\x13MediaQualitySetting\x12\x19\n" +
-	"\x15MEDIA_QUALITY_UNKNOWN\x10\x00\x12\f\n" +
-	"\bSTANDARD\x10\x01\x12\x06\n" +
-	"\x02HD\x10\x02\"\x94\b\n" +
+	"\x15ONLY_WHEN_APP_IS_OPEN\x10\x03\"\x94\b\n" +
 	"\n" +
 	"SettingKey\x12\x17\n" +
 	"\x13SETTING_KEY_UNKNOWN\x10\x00\x12\x12\n" +
@@ -7459,8 +7459,8 @@ var file_waSyncAction_WAWebProtobufSyncAction_proto_goTypes = []any{
 	(CallLogRecord_CallType)(0),                                        // 2: WAWebProtobufSyncAction.CallLogRecord.CallType
 	(CallLogRecord_SilenceReason)(0),                                   // 3: WAWebProtobufSyncAction.CallLogRecord.SilenceReason
 	(CallLogRecord_CallResult)(0),                                      // 4: WAWebProtobufSyncAction.CallLogRecord.CallResult
-	(SettingsSyncAction_DisplayMode)(0),                                // 5: WAWebProtobufSyncAction.SettingsSyncAction.DisplayMode
-	(SettingsSyncAction_MediaQualitySetting)(0),                        // 6: WAWebProtobufSyncAction.SettingsSyncAction.MediaQualitySetting
+	(SettingsSyncAction_MediaQualitySetting)(0),                        // 5: WAWebProtobufSyncAction.SettingsSyncAction.MediaQualitySetting
+	(SettingsSyncAction_DisplayMode)(0),                                // 6: WAWebProtobufSyncAction.SettingsSyncAction.DisplayMode
 	(SettingsSyncAction_SettingKey)(0),                                 // 7: WAWebProtobufSyncAction.SettingsSyncAction.SettingKey
 	(SettingsSyncAction_SettingPlatform)(0),                            // 8: WAWebProtobufSyncAction.SettingsSyncAction.SettingPlatform
 	(InteractiveMessageAction_InteractiveMessageActionMode)(0),         // 9: WAWebProtobufSyncAction.InteractiveMessageAction.InteractiveMessageActionMode
@@ -7565,9 +7565,9 @@ var file_waSyncAction_WAWebProtobufSyncAction_proto_depIdxs = []int32{
 	3,   // 1: WAWebProtobufSyncAction.CallLogRecord.silenceReason:type_name -> WAWebProtobufSyncAction.CallLogRecord.SilenceReason
 	100, // 2: WAWebProtobufSyncAction.CallLogRecord.participants:type_name -> WAWebProtobufSyncAction.CallLogRecord.ParticipantInfo
 	2,   // 3: WAWebProtobufSyncAction.CallLogRecord.callType:type_name -> WAWebProtobufSyncAction.CallLogRecord.CallType
-	5,   // 4: WAWebProtobufSyncAction.SettingsSyncAction.bannerNotificationDisplayMode:type_name -> WAWebProtobufSyncAction.SettingsSyncAction.DisplayMode
-	5,   // 5: WAWebProtobufSyncAction.SettingsSyncAction.unreadCounterBadgeDisplayMode:type_name -> WAWebProtobufSyncAction.SettingsSyncAction.DisplayMode
-	6,   // 6: WAWebProtobufSyncAction.SettingsSyncAction.mediaUploadQuality:type_name -> WAWebProtobufSyncAction.SettingsSyncAction.MediaQualitySetting
+	6,   // 4: WAWebProtobufSyncAction.SettingsSyncAction.bannerNotificationDisplayMode:type_name -> WAWebProtobufSyncAction.SettingsSyncAction.DisplayMode
+	6,   // 5: WAWebProtobufSyncAction.SettingsSyncAction.unreadCounterBadgeDisplayMode:type_name -> WAWebProtobufSyncAction.SettingsSyncAction.DisplayMode
+	5,   // 6: WAWebProtobufSyncAction.SettingsSyncAction.mediaUploadQuality:type_name -> WAWebProtobufSyncAction.SettingsSyncAction.MediaQualitySetting
 	9,   // 7: WAWebProtobufSyncAction.InteractiveMessageAction.type:type_name -> WAWebProtobufSyncAction.InteractiveMessageAction.InteractiveMessageActionMode
 	10,  // 8: WAWebProtobufSyncAction.PrivateProcessingSettingAction.privateProcessingStatus:type_name -> WAWebProtobufSyncAction.PrivateProcessingSettingAction.PrivateProcessingStatus
 	11,  // 9: WAWebProtobufSyncAction.AvatarUpdatedAction.eventType:type_name -> WAWebProtobufSyncAction.AvatarUpdatedAction.AvatarEventType
