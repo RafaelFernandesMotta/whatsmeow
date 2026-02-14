@@ -7,16 +7,14 @@
 package waSyncAction
 
 import (
-	reflect "reflect"
-	sync "sync"
-	unsafe "unsafe"
-
-	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
-	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-
 	waChatLockSettings "go.mau.fi/whatsmeow/proto/waChatLockSettings"
 	waCommon "go.mau.fi/whatsmeow/proto/waCommon"
 	waDeviceCapabilities "go.mau.fi/whatsmeow/proto/waDeviceCapabilities"
+	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
+	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	reflect "reflect"
+	sync "sync"
+	unsafe "unsafe"
 )
 
 const (
@@ -169,6 +167,8 @@ const (
 	MutationProps_AI_THREAD_RENAME_ACTION                                     MutationProps = 76
 	MutationProps_INTERACTIVE_MESSAGE_ACTION                                  MutationProps = 77
 	MutationProps_SETTINGS_SYNC_ACTION                                        MutationProps = 78
+	MutationProps_OUT_CONTACT_ACTION                                          MutationProps = 79
+	MutationProps_NCT_SALT_SYNC_ACTION                                        MutationProps = 80
 	MutationProps_SHARE_OWN_PN                                                MutationProps = 10001
 	MutationProps_BUSINESS_BROADCAST_ACTION                                   MutationProps = 10002
 	MutationProps_AI_THREAD_DELETE_ACTION                                     MutationProps = 10003
@@ -249,6 +249,8 @@ var (
 		76:    "AI_THREAD_RENAME_ACTION",
 		77:    "INTERACTIVE_MESSAGE_ACTION",
 		78:    "SETTINGS_SYNC_ACTION",
+		79:    "OUT_CONTACT_ACTION",
+		80:    "NCT_SALT_SYNC_ACTION",
 		10001: "SHARE_OWN_PN",
 		10002: "BUSINESS_BROADCAST_ACTION",
 		10003: "AI_THREAD_DELETE_ACTION",
@@ -326,6 +328,8 @@ var (
 		"AI_THREAD_RENAME_ACTION":                                     76,
 		"INTERACTIVE_MESSAGE_ACTION":                                  77,
 		"SETTINGS_SYNC_ACTION":                                        78,
+		"OUT_CONTACT_ACTION":                                          79,
+		"NCT_SALT_SYNC_ACTION":                                        80,
 		"SHARE_OWN_PN":                                                10001,
 		"BUSINESS_BROADCAST_ACTION":                                   10002,
 		"AI_THREAD_DELETE_ACTION":                                     10003,
@@ -2201,6 +2205,7 @@ func (x *SettingsSyncAction) GetShouldPlaySoundForCallNotification() bool {
 type InteractiveMessageAction struct {
 	state         protoimpl.MessageState                                 `protogen:"open.v1"`
 	Type          *InteractiveMessageAction_InteractiveMessageActionMode `protobuf:"varint,1,req,name=type,enum=WAWebProtobufSyncAction.InteractiveMessageAction_InteractiveMessageActionMode" json:"type,omitempty"`
+	AgmId         *string                                                `protobuf:"bytes,2,opt,name=agmId" json:"agmId,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2240,6 +2245,13 @@ func (x *InteractiveMessageAction) GetType() InteractiveMessageAction_Interactiv
 		return *x.Type
 	}
 	return InteractiveMessageAction_DISABLE_CTA
+}
+
+func (x *InteractiveMessageAction) GetAgmId() string {
+	if x != nil && x.AgmId != nil {
+		return *x.AgmId
+	}
+	return ""
 }
 
 type PrivateProcessingSettingAction struct {
@@ -3209,6 +3221,8 @@ type SyncActionValue struct {
 	AiThreadRenameAction                                   *AiThreadRenameAction                                   `protobuf:"bytes,76,opt,name=aiThreadRenameAction" json:"aiThreadRenameAction,omitempty"`
 	InteractiveMessageAction                               *InteractiveMessageAction                               `protobuf:"bytes,77,opt,name=interactiveMessageAction" json:"interactiveMessageAction,omitempty"`
 	SettingsSyncAction                                     *SettingsSyncAction                                     `protobuf:"bytes,78,opt,name=settingsSyncAction" json:"settingsSyncAction,omitempty"`
+	OutContactAction                                       *OutContactAction                                       `protobuf:"bytes,79,opt,name=outContactAction" json:"outContactAction,omitempty"`
+	NctSaltSyncAction                                      *NctSaltSyncAction                                      `protobuf:"bytes,80,opt,name=nctSaltSyncAction" json:"nctSaltSyncAction,omitempty"`
 	unknownFields                                          protoimpl.UnknownFields
 	sizeCache                                              protoimpl.SizeCache
 }
@@ -3722,6 +3736,20 @@ func (x *SyncActionValue) GetInteractiveMessageAction() *InteractiveMessageActio
 func (x *SyncActionValue) GetSettingsSyncAction() *SettingsSyncAction {
 	if x != nil {
 		return x.SettingsSyncAction
+	}
+	return nil
+}
+
+func (x *SyncActionValue) GetOutContactAction() *OutContactAction {
+	if x != nil {
+		return x.OutContactAction
+	}
+	return nil
+}
+
+func (x *SyncActionValue) GetNctSaltSyncAction() *NctSaltSyncAction {
+	if x != nil {
+		return x.NctSaltSyncAction
 	}
 	return nil
 }
@@ -5406,6 +5434,58 @@ func (x *NuxAction) GetAcknowledged() bool {
 	return false
 }
 
+type OutContactAction struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	FullName      *string                `protobuf:"bytes,1,opt,name=fullName" json:"fullName,omitempty"`
+	FirstName     *string                `protobuf:"bytes,2,opt,name=firstName" json:"firstName,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *OutContactAction) Reset() {
+	*x = OutContactAction{}
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[52]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *OutContactAction) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*OutContactAction) ProtoMessage() {}
+
+func (x *OutContactAction) ProtoReflect() protoreflect.Message {
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[52]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use OutContactAction.ProtoReflect.Descriptor instead.
+func (*OutContactAction) Descriptor() ([]byte, []int) {
+	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{52}
+}
+
+func (x *OutContactAction) GetFullName() string {
+	if x != nil && x.FullName != nil {
+		return *x.FullName
+	}
+	return ""
+}
+
+func (x *OutContactAction) GetFirstName() string {
+	if x != nil && x.FirstName != nil {
+		return *x.FirstName
+	}
+	return ""
+}
+
 type TimeFormatAction struct {
 	state                         protoimpl.MessageState `protogen:"open.v1"`
 	IsTwentyFourHourFormatEnabled *bool                  `protobuf:"varint,1,opt,name=isTwentyFourHourFormatEnabled" json:"isTwentyFourHourFormatEnabled,omitempty"`
@@ -5415,7 +5495,7 @@ type TimeFormatAction struct {
 
 func (x *TimeFormatAction) Reset() {
 	*x = TimeFormatAction{}
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[52]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[53]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5427,7 +5507,7 @@ func (x *TimeFormatAction) String() string {
 func (*TimeFormatAction) ProtoMessage() {}
 
 func (x *TimeFormatAction) ProtoReflect() protoreflect.Message {
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[52]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[53]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5440,7 +5520,7 @@ func (x *TimeFormatAction) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TimeFormatAction.ProtoReflect.Descriptor instead.
 func (*TimeFormatAction) Descriptor() ([]byte, []int) {
-	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{52}
+	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{53}
 }
 
 func (x *TimeFormatAction) GetIsTwentyFourHourFormatEnabled() bool {
@@ -5459,7 +5539,7 @@ type UserStatusMuteAction struct {
 
 func (x *UserStatusMuteAction) Reset() {
 	*x = UserStatusMuteAction{}
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[53]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[54]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5471,7 +5551,7 @@ func (x *UserStatusMuteAction) String() string {
 func (*UserStatusMuteAction) ProtoMessage() {}
 
 func (x *UserStatusMuteAction) ProtoReflect() protoreflect.Message {
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[53]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[54]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5484,7 +5564,7 @@ func (x *UserStatusMuteAction) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserStatusMuteAction.ProtoReflect.Descriptor instead.
 func (*UserStatusMuteAction) Descriptor() ([]byte, []int) {
-	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{53}
+	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{54}
 }
 
 func (x *UserStatusMuteAction) GetMuted() bool {
@@ -5505,7 +5585,7 @@ type SubscriptionAction struct {
 
 func (x *SubscriptionAction) Reset() {
 	*x = SubscriptionAction{}
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[54]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[55]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5517,7 +5597,7 @@ func (x *SubscriptionAction) String() string {
 func (*SubscriptionAction) ProtoMessage() {}
 
 func (x *SubscriptionAction) ProtoReflect() protoreflect.Message {
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[54]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[55]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5530,7 +5610,7 @@ func (x *SubscriptionAction) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SubscriptionAction.ProtoReflect.Descriptor instead.
 func (*SubscriptionAction) Descriptor() ([]byte, []int) {
-	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{54}
+	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{55}
 }
 
 func (x *SubscriptionAction) GetIsDeactivated() bool {
@@ -5565,7 +5645,7 @@ type AgentAction struct {
 
 func (x *AgentAction) Reset() {
 	*x = AgentAction{}
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[55]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[56]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5577,7 +5657,7 @@ func (x *AgentAction) String() string {
 func (*AgentAction) ProtoMessage() {}
 
 func (x *AgentAction) ProtoReflect() protoreflect.Message {
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[55]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[56]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5590,7 +5670,7 @@ func (x *AgentAction) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AgentAction.ProtoReflect.Descriptor instead.
 func (*AgentAction) Descriptor() ([]byte, []int) {
-	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{55}
+	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{56}
 }
 
 func (x *AgentAction) GetName() string {
@@ -5623,7 +5703,7 @@ type AndroidUnsupportedActions struct {
 
 func (x *AndroidUnsupportedActions) Reset() {
 	*x = AndroidUnsupportedActions{}
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[56]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[57]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5635,7 +5715,7 @@ func (x *AndroidUnsupportedActions) String() string {
 func (*AndroidUnsupportedActions) ProtoMessage() {}
 
 func (x *AndroidUnsupportedActions) ProtoReflect() protoreflect.Message {
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[56]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[57]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5648,7 +5728,7 @@ func (x *AndroidUnsupportedActions) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AndroidUnsupportedActions.ProtoReflect.Descriptor instead.
 func (*AndroidUnsupportedActions) Descriptor() ([]byte, []int) {
-	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{56}
+	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{57}
 }
 
 func (x *AndroidUnsupportedActions) GetAllowed() bool {
@@ -5667,7 +5747,7 @@ type PrimaryFeature struct {
 
 func (x *PrimaryFeature) Reset() {
 	*x = PrimaryFeature{}
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[57]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[58]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5679,7 +5759,7 @@ func (x *PrimaryFeature) String() string {
 func (*PrimaryFeature) ProtoMessage() {}
 
 func (x *PrimaryFeature) ProtoReflect() protoreflect.Message {
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[57]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[58]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5692,7 +5772,7 @@ func (x *PrimaryFeature) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PrimaryFeature.ProtoReflect.Descriptor instead.
 func (*PrimaryFeature) Descriptor() ([]byte, []int) {
-	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{57}
+	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{58}
 }
 
 func (x *PrimaryFeature) GetFlags() []string {
@@ -5711,7 +5791,7 @@ type KeyExpiration struct {
 
 func (x *KeyExpiration) Reset() {
 	*x = KeyExpiration{}
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[58]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[59]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5723,7 +5803,7 @@ func (x *KeyExpiration) String() string {
 func (*KeyExpiration) ProtoMessage() {}
 
 func (x *KeyExpiration) ProtoReflect() protoreflect.Message {
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[58]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[59]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5736,7 +5816,7 @@ func (x *KeyExpiration) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use KeyExpiration.ProtoReflect.Descriptor instead.
 func (*KeyExpiration) Descriptor() ([]byte, []int) {
-	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{58}
+	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{59}
 }
 
 func (x *KeyExpiration) GetExpiredKeyEpoch() int32 {
@@ -5756,7 +5836,7 @@ type SyncActionMessage struct {
 
 func (x *SyncActionMessage) Reset() {
 	*x = SyncActionMessage{}
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[59]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[60]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5768,7 +5848,7 @@ func (x *SyncActionMessage) String() string {
 func (*SyncActionMessage) ProtoMessage() {}
 
 func (x *SyncActionMessage) ProtoReflect() protoreflect.Message {
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[59]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[60]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5781,7 +5861,7 @@ func (x *SyncActionMessage) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SyncActionMessage.ProtoReflect.Descriptor instead.
 func (*SyncActionMessage) Descriptor() ([]byte, []int) {
-	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{59}
+	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{60}
 }
 
 func (x *SyncActionMessage) GetKey() *waCommon.MessageKey {
@@ -5809,7 +5889,7 @@ type SyncActionMessageRange struct {
 
 func (x *SyncActionMessageRange) Reset() {
 	*x = SyncActionMessageRange{}
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[60]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[61]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5821,7 +5901,7 @@ func (x *SyncActionMessageRange) String() string {
 func (*SyncActionMessageRange) ProtoMessage() {}
 
 func (x *SyncActionMessageRange) ProtoReflect() protoreflect.Message {
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[60]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[61]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5834,7 +5914,7 @@ func (x *SyncActionMessageRange) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SyncActionMessageRange.ProtoReflect.Descriptor instead.
 func (*SyncActionMessageRange) Descriptor() ([]byte, []int) {
-	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{60}
+	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{61}
 }
 
 func (x *SyncActionMessageRange) GetLastMessageTimestamp() int64 {
@@ -5867,7 +5947,7 @@ type UnarchiveChatsSetting struct {
 
 func (x *UnarchiveChatsSetting) Reset() {
 	*x = UnarchiveChatsSetting{}
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[61]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[62]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5879,7 +5959,7 @@ func (x *UnarchiveChatsSetting) String() string {
 func (*UnarchiveChatsSetting) ProtoMessage() {}
 
 func (x *UnarchiveChatsSetting) ProtoReflect() protoreflect.Message {
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[61]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[62]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5892,7 +5972,7 @@ func (x *UnarchiveChatsSetting) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UnarchiveChatsSetting.ProtoReflect.Descriptor instead.
 func (*UnarchiveChatsSetting) Descriptor() ([]byte, []int) {
-	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{61}
+	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{62}
 }
 
 func (x *UnarchiveChatsSetting) GetUnarchiveChats() bool {
@@ -5911,7 +5991,7 @@ type DeleteChatAction struct {
 
 func (x *DeleteChatAction) Reset() {
 	*x = DeleteChatAction{}
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[62]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[63]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5923,7 +6003,7 @@ func (x *DeleteChatAction) String() string {
 func (*DeleteChatAction) ProtoMessage() {}
 
 func (x *DeleteChatAction) ProtoReflect() protoreflect.Message {
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[62]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[63]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5936,7 +6016,7 @@ func (x *DeleteChatAction) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteChatAction.ProtoReflect.Descriptor instead.
 func (*DeleteChatAction) Descriptor() ([]byte, []int) {
-	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{62}
+	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{63}
 }
 
 func (x *DeleteChatAction) GetMessageRange() *SyncActionMessageRange {
@@ -5955,7 +6035,7 @@ type ClearChatAction struct {
 
 func (x *ClearChatAction) Reset() {
 	*x = ClearChatAction{}
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[63]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[64]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5967,7 +6047,7 @@ func (x *ClearChatAction) String() string {
 func (*ClearChatAction) ProtoMessage() {}
 
 func (x *ClearChatAction) ProtoReflect() protoreflect.Message {
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[63]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[64]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5980,7 +6060,7 @@ func (x *ClearChatAction) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ClearChatAction.ProtoReflect.Descriptor instead.
 func (*ClearChatAction) Descriptor() ([]byte, []int) {
-	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{63}
+	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{64}
 }
 
 func (x *ClearChatAction) GetMessageRange() *SyncActionMessageRange {
@@ -6000,7 +6080,7 @@ type MarkChatAsReadAction struct {
 
 func (x *MarkChatAsReadAction) Reset() {
 	*x = MarkChatAsReadAction{}
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[64]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[65]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6012,7 +6092,7 @@ func (x *MarkChatAsReadAction) String() string {
 func (*MarkChatAsReadAction) ProtoMessage() {}
 
 func (x *MarkChatAsReadAction) ProtoReflect() protoreflect.Message {
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[64]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[65]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6025,7 +6105,7 @@ func (x *MarkChatAsReadAction) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MarkChatAsReadAction.ProtoReflect.Descriptor instead.
 func (*MarkChatAsReadAction) Descriptor() ([]byte, []int) {
-	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{64}
+	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{65}
 }
 
 func (x *MarkChatAsReadAction) GetRead() bool {
@@ -6052,7 +6132,7 @@ type DeleteMessageForMeAction struct {
 
 func (x *DeleteMessageForMeAction) Reset() {
 	*x = DeleteMessageForMeAction{}
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[65]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[66]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6064,7 +6144,7 @@ func (x *DeleteMessageForMeAction) String() string {
 func (*DeleteMessageForMeAction) ProtoMessage() {}
 
 func (x *DeleteMessageForMeAction) ProtoReflect() protoreflect.Message {
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[65]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[66]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6077,7 +6157,7 @@ func (x *DeleteMessageForMeAction) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteMessageForMeAction.ProtoReflect.Descriptor instead.
 func (*DeleteMessageForMeAction) Descriptor() ([]byte, []int) {
-	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{65}
+	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{66}
 }
 
 func (x *DeleteMessageForMeAction) GetDeleteMedia() bool {
@@ -6104,7 +6184,7 @@ type ArchiveChatAction struct {
 
 func (x *ArchiveChatAction) Reset() {
 	*x = ArchiveChatAction{}
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[66]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[67]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6116,7 +6196,7 @@ func (x *ArchiveChatAction) String() string {
 func (*ArchiveChatAction) ProtoMessage() {}
 
 func (x *ArchiveChatAction) ProtoReflect() protoreflect.Message {
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[66]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[67]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6129,7 +6209,7 @@ func (x *ArchiveChatAction) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ArchiveChatAction.ProtoReflect.Descriptor instead.
 func (*ArchiveChatAction) Descriptor() ([]byte, []int) {
-	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{66}
+	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{67}
 }
 
 func (x *ArchiveChatAction) GetArchived() bool {
@@ -6155,7 +6235,7 @@ type RecentEmojiWeightsAction struct {
 
 func (x *RecentEmojiWeightsAction) Reset() {
 	*x = RecentEmojiWeightsAction{}
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[67]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[68]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6167,7 +6247,7 @@ func (x *RecentEmojiWeightsAction) String() string {
 func (*RecentEmojiWeightsAction) ProtoMessage() {}
 
 func (x *RecentEmojiWeightsAction) ProtoReflect() protoreflect.Message {
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[67]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[68]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6180,7 +6260,7 @@ func (x *RecentEmojiWeightsAction) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RecentEmojiWeightsAction.ProtoReflect.Descriptor instead.
 func (*RecentEmojiWeightsAction) Descriptor() ([]byte, []int) {
-	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{67}
+	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{68}
 }
 
 func (x *RecentEmojiWeightsAction) GetWeights() []*RecentEmojiWeight {
@@ -6199,7 +6279,7 @@ type LabelAssociationAction struct {
 
 func (x *LabelAssociationAction) Reset() {
 	*x = LabelAssociationAction{}
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[68]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[69]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6211,7 +6291,7 @@ func (x *LabelAssociationAction) String() string {
 func (*LabelAssociationAction) ProtoMessage() {}
 
 func (x *LabelAssociationAction) ProtoReflect() protoreflect.Message {
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[68]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[69]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6224,7 +6304,7 @@ func (x *LabelAssociationAction) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LabelAssociationAction.ProtoReflect.Descriptor instead.
 func (*LabelAssociationAction) Descriptor() ([]byte, []int) {
-	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{68}
+	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{69}
 }
 
 func (x *LabelAssociationAction) GetLabeled() bool {
@@ -6247,7 +6327,7 @@ type QuickReplyAction struct {
 
 func (x *QuickReplyAction) Reset() {
 	*x = QuickReplyAction{}
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[69]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[70]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6259,7 +6339,7 @@ func (x *QuickReplyAction) String() string {
 func (*QuickReplyAction) ProtoMessage() {}
 
 func (x *QuickReplyAction) ProtoReflect() protoreflect.Message {
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[69]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[70]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6272,7 +6352,7 @@ func (x *QuickReplyAction) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use QuickReplyAction.ProtoReflect.Descriptor instead.
 func (*QuickReplyAction) Descriptor() ([]byte, []int) {
-	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{69}
+	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{70}
 }
 
 func (x *QuickReplyAction) GetShortcut() string {
@@ -6319,7 +6399,7 @@ type LocaleSetting struct {
 
 func (x *LocaleSetting) Reset() {
 	*x = LocaleSetting{}
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[70]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[71]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6331,7 +6411,7 @@ func (x *LocaleSetting) String() string {
 func (*LocaleSetting) ProtoMessage() {}
 
 func (x *LocaleSetting) ProtoReflect() protoreflect.Message {
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[70]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[71]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6344,7 +6424,7 @@ func (x *LocaleSetting) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LocaleSetting.ProtoReflect.Descriptor instead.
 func (*LocaleSetting) Descriptor() ([]byte, []int) {
-	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{70}
+	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{71}
 }
 
 func (x *LocaleSetting) GetLocale() string {
@@ -6363,7 +6443,7 @@ type PushNameSetting struct {
 
 func (x *PushNameSetting) Reset() {
 	*x = PushNameSetting{}
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[71]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[72]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6375,7 +6455,7 @@ func (x *PushNameSetting) String() string {
 func (*PushNameSetting) ProtoMessage() {}
 
 func (x *PushNameSetting) ProtoReflect() protoreflect.Message {
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[71]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[72]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6388,7 +6468,7 @@ func (x *PushNameSetting) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PushNameSetting.ProtoReflect.Descriptor instead.
 func (*PushNameSetting) Descriptor() ([]byte, []int) {
-	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{71}
+	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{72}
 }
 
 func (x *PushNameSetting) GetName() string {
@@ -6407,7 +6487,7 @@ type PinAction struct {
 
 func (x *PinAction) Reset() {
 	*x = PinAction{}
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[72]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[73]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6419,7 +6499,7 @@ func (x *PinAction) String() string {
 func (*PinAction) ProtoMessage() {}
 
 func (x *PinAction) ProtoReflect() protoreflect.Message {
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[72]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[73]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6432,7 +6512,7 @@ func (x *PinAction) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PinAction.ProtoReflect.Descriptor instead.
 func (*PinAction) Descriptor() ([]byte, []int) {
-	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{72}
+	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{73}
 }
 
 func (x *PinAction) GetPinned() bool {
@@ -6454,7 +6534,7 @@ type MuteAction struct {
 
 func (x *MuteAction) Reset() {
 	*x = MuteAction{}
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[73]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[74]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6466,7 +6546,7 @@ func (x *MuteAction) String() string {
 func (*MuteAction) ProtoMessage() {}
 
 func (x *MuteAction) ProtoReflect() protoreflect.Message {
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[73]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[74]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6479,7 +6559,7 @@ func (x *MuteAction) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MuteAction.ProtoReflect.Descriptor instead.
 func (*MuteAction) Descriptor() ([]byte, []int) {
-	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{73}
+	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{74}
 }
 
 func (x *MuteAction) GetMuted() bool {
@@ -6510,6 +6590,50 @@ func (x *MuteAction) GetMuteEveryoneMentionEndTimestamp() int64 {
 	return 0
 }
 
+type NctSaltSyncAction struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Salt          []byte                 `protobuf:"bytes,1,opt,name=salt" json:"salt,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *NctSaltSyncAction) Reset() {
+	*x = NctSaltSyncAction{}
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[75]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *NctSaltSyncAction) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*NctSaltSyncAction) ProtoMessage() {}
+
+func (x *NctSaltSyncAction) ProtoReflect() protoreflect.Message {
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[75]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use NctSaltSyncAction.ProtoReflect.Descriptor instead.
+func (*NctSaltSyncAction) Descriptor() ([]byte, []int) {
+	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{75}
+}
+
+func (x *NctSaltSyncAction) GetSalt() []byte {
+	if x != nil {
+		return x.Salt
+	}
+	return nil
+}
+
 type ContactAction struct {
 	state                    protoimpl.MessageState `protogen:"open.v1"`
 	FullName                 *string                `protobuf:"bytes,1,opt,name=fullName" json:"fullName,omitempty"`
@@ -6524,7 +6648,7 @@ type ContactAction struct {
 
 func (x *ContactAction) Reset() {
 	*x = ContactAction{}
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[74]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[76]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6536,7 +6660,7 @@ func (x *ContactAction) String() string {
 func (*ContactAction) ProtoMessage() {}
 
 func (x *ContactAction) ProtoReflect() protoreflect.Message {
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[74]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[76]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6549,7 +6673,7 @@ func (x *ContactAction) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ContactAction.ProtoReflect.Descriptor instead.
 func (*ContactAction) Descriptor() ([]byte, []int) {
-	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{74}
+	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{76}
 }
 
 func (x *ContactAction) GetFullName() string {
@@ -6603,7 +6727,7 @@ type StarAction struct {
 
 func (x *StarAction) Reset() {
 	*x = StarAction{}
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[75]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[77]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6615,7 +6739,7 @@ func (x *StarAction) String() string {
 func (*StarAction) ProtoMessage() {}
 
 func (x *StarAction) ProtoReflect() protoreflect.Message {
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[75]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[77]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6628,7 +6752,7 @@ func (x *StarAction) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StarAction.ProtoReflect.Descriptor instead.
 func (*StarAction) Descriptor() ([]byte, []int) {
-	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{75}
+	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{77}
 }
 
 func (x *StarAction) GetStarred() bool {
@@ -6650,7 +6774,7 @@ type SyncActionData struct {
 
 func (x *SyncActionData) Reset() {
 	*x = SyncActionData{}
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[76]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[78]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6662,7 +6786,7 @@ func (x *SyncActionData) String() string {
 func (*SyncActionData) ProtoMessage() {}
 
 func (x *SyncActionData) ProtoReflect() protoreflect.Message {
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[76]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[78]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6675,7 +6799,7 @@ func (x *SyncActionData) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SyncActionData.ProtoReflect.Descriptor instead.
 func (*SyncActionData) Descriptor() ([]byte, []int) {
-	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{76}
+	return file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP(), []int{78}
 }
 
 func (x *SyncActionData) GetIndex() []byte {
@@ -6716,7 +6840,7 @@ type CallLogRecord_ParticipantInfo struct {
 
 func (x *CallLogRecord_ParticipantInfo) Reset() {
 	*x = CallLogRecord_ParticipantInfo{}
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[77]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[79]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6728,7 +6852,7 @@ func (x *CallLogRecord_ParticipantInfo) String() string {
 func (*CallLogRecord_ParticipantInfo) ProtoMessage() {}
 
 func (x *CallLogRecord_ParticipantInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[77]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[79]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6767,7 +6891,7 @@ type FavoritesAction_Favorite struct {
 
 func (x *FavoritesAction_Favorite) Reset() {
 	*x = FavoritesAction_Favorite{}
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[78]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[80]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -6779,7 +6903,7 @@ func (x *FavoritesAction_Favorite) String() string {
 func (*FavoritesAction_Favorite) ProtoMessage() {}
 
 func (x *FavoritesAction_Favorite) ProtoReflect() protoreflect.Message {
-	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[78]
+	mi := &file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes[80]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -6945,9 +7069,10 @@ const file_waSyncAction_WAWebProtobufSyncAction_proto_rawDesc = "" +
 	"\n" +
 	"\x06HYBRID\x10\x02\x12\v\n" +
 	"\aWINDOWS\x10\x03\x12\a\n" +
-	"\x03MAC\x10\x04\"\xaf\x01\n" +
+	"\x03MAC\x10\x04\"\xc5\x01\n" +
 	"\x18InteractiveMessageAction\x12b\n" +
-	"\x04type\x18\x01 \x02(\x0e2N.WAWebProtobufSyncAction.InteractiveMessageAction.InteractiveMessageActionModeR\x04type\"/\n" +
+	"\x04type\x18\x01 \x02(\x0e2N.WAWebProtobufSyncAction.InteractiveMessageAction.InteractiveMessageActionModeR\x04type\x12\x14\n" +
+	"\x05agmId\x18\x02 \x01(\tR\x05agmId\"/\n" +
 	"\x1cInteractiveMessageActionMode\x12\x0f\n" +
 	"\vDISABLE_CTA\x10\x01\"\xf1\x01\n" +
 	"\x1ePrivateProcessingSettingAction\x12\x89\x01\n" +
@@ -7095,7 +7220,7 @@ const file_waSyncAction_WAWebProtobufSyncAction_proto_rawDesc = "" +
 	"\x04CAPI\x10\v\"A\n" +
 	"\x11RecentEmojiWeight\x12\x14\n" +
 	"\x05emoji\x18\x01 \x01(\tR\x05emoji\x12\x16\n" +
-	"\x06weight\x18\x02 \x01(\x02R\x06weight\"\xa16\n" +
+	"\x06weight\x18\x02 \x01(\x02R\x06weight\"\xd27\n" +
 	"\x0fSyncActionValue\x12\x1c\n" +
 	"\ttimestamp\x18\x01 \x01(\x03R\ttimestamp\x12C\n" +
 	"\n" +
@@ -7169,7 +7294,9 @@ const file_waSyncAction_WAWebProtobufSyncAction_proto_rawDesc = "" +
 	"\x1enewsletterSavedInterestsAction\x18K \x01(\v27.WAWebProtobufSyncAction.NewsletterSavedInterestsActionR\x1enewsletterSavedInterestsAction\x12a\n" +
 	"\x14aiThreadRenameAction\x18L \x01(\v2-.WAWebProtobufSyncAction.AiThreadRenameActionR\x14aiThreadRenameAction\x12m\n" +
 	"\x18interactiveMessageAction\x18M \x01(\v21.WAWebProtobufSyncAction.InteractiveMessageActionR\x18interactiveMessageAction\x12[\n" +
-	"\x12settingsSyncAction\x18N \x01(\v2+.WAWebProtobufSyncAction.SettingsSyncActionR\x12settingsSyncAction\"2\n" +
+	"\x12settingsSyncAction\x18N \x01(\v2+.WAWebProtobufSyncAction.SettingsSyncActionR\x12settingsSyncAction\x12U\n" +
+	"\x10outContactAction\x18O \x01(\v2).WAWebProtobufSyncAction.OutContactActionR\x10outContactAction\x12X\n" +
+	"\x11nctSaltSyncAction\x18P \x01(\v2*.WAWebProtobufSyncAction.NctSaltSyncActionR\x11nctSaltSyncAction\"2\n" +
 	"\x14AiThreadRenameAction\x12\x1a\n" +
 	"\bnewTitle\x18\x01 \x01(\tR\bnewTitle\"H\n" +
 	",StatusPostOptInNotificationPreferencesAction\x12\x18\n" +
@@ -7277,7 +7404,10 @@ const file_waSyncAction_WAWebProtobufSyncAction_proto_rawDesc = "" +
 	"\x14PrimaryVersionAction\x12\x18\n" +
 	"\aversion\x18\x01 \x01(\tR\aversion\"/\n" +
 	"\tNuxAction\x12\"\n" +
-	"\facknowledged\x18\x01 \x01(\bR\facknowledged\"X\n" +
+	"\facknowledged\x18\x01 \x01(\bR\facknowledged\"L\n" +
+	"\x10OutContactAction\x12\x1a\n" +
+	"\bfullName\x18\x01 \x01(\tR\bfullName\x12\x1c\n" +
+	"\tfirstName\x18\x02 \x01(\tR\tfirstName\"X\n" +
 	"\x10TimeFormatAction\x12D\n" +
 	"\x1disTwentyFourHourFormatEnabled\x18\x01 \x01(\bR\x1disTwentyFourHourFormatEnabled\",\n" +
 	"\x14UserStatusMuteAction\x12\x14\n" +
@@ -7339,7 +7469,9 @@ const file_waSyncAction_WAWebProtobufSyncAction_proto_rawDesc = "" +
 	"\x05muted\x18\x01 \x01(\bR\x05muted\x12*\n" +
 	"\x10muteEndTimestamp\x18\x02 \x01(\x03R\x10muteEndTimestamp\x12\x1c\n" +
 	"\tautoMuted\x18\x03 \x01(\bR\tautoMuted\x12H\n" +
-	"\x1fmuteEveryoneMentionEndTimestamp\x18\x04 \x01(\x03R\x1fmuteEveryoneMentionEndTimestamp\"\xcf\x01\n" +
+	"\x1fmuteEveryoneMentionEndTimestamp\x18\x04 \x01(\x03R\x1fmuteEveryoneMentionEndTimestamp\"'\n" +
+	"\x11NctSaltSyncAction\x12\x12\n" +
+	"\x04salt\x18\x01 \x01(\fR\x04salt\"\xcf\x01\n" +
 	"\rContactAction\x12\x1a\n" +
 	"\bfullName\x18\x01 \x01(\tR\bfullName\x12\x1c\n" +
 	"\tfirstName\x18\x02 \x01(\tR\tfirstName\x12\x16\n" +
@@ -7361,7 +7493,7 @@ const file_waSyncAction_WAWebProtobufSyncAction_proto_rawDesc = "" +
 	"\vREGULAR_LOW\x10\x02\x12\x10\n" +
 	"\fREGULAR_HIGH\x10\x03\x12\x12\n" +
 	"\x0eCRITICAL_BLOCK\x10\x04\x12\x18\n" +
-	"\x14CRITICAL_UNBLOCK_LOW\x10\x05*\x92\x11\n" +
+	"\x14CRITICAL_UNBLOCK_LOW\x10\x05*\xc4\x11\n" +
 	"\rMutationProps\x12\x0f\n" +
 	"\vSTAR_ACTION\x10\x02\x12\x12\n" +
 	"\x0eCONTACT_ACTION\x10\x03\x12\x0f\n" +
@@ -7436,7 +7568,9 @@ const file_waSyncAction_WAWebProtobufSyncAction_proto_rawDesc = "" +
 	"!NEWSLETTER_SAVED_INTERESTS_ACTION\x10K\x12\x1b\n" +
 	"\x17AI_THREAD_RENAME_ACTION\x10L\x12\x1e\n" +
 	"\x1aINTERACTIVE_MESSAGE_ACTION\x10M\x12\x18\n" +
-	"\x14SETTINGS_SYNC_ACTION\x10N\x12\x11\n" +
+	"\x14SETTINGS_SYNC_ACTION\x10N\x12\x16\n" +
+	"\x12OUT_CONTACT_ACTION\x10O\x12\x18\n" +
+	"\x14NCT_SALT_SYNC_ACTION\x10P\x12\x11\n" +
 	"\fSHARE_OWN_PN\x10\x91N\x12\x1e\n" +
 	"\x19BUSINESS_BROADCAST_ACTION\x10\x92N\x12\x1c\n" +
 	"\x17AI_THREAD_DELETE_ACTION\x10\x93NB(Z&go.mau.fi/whatsmeow/proto/waSyncAction"
@@ -7454,7 +7588,7 @@ func file_waSyncAction_WAWebProtobufSyncAction_proto_rawDescGZIP() []byte {
 }
 
 var file_waSyncAction_WAWebProtobufSyncAction_proto_enumTypes = make([]protoimpl.EnumInfo, 23)
-var file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes = make([]protoimpl.MessageInfo, 79)
+var file_waSyncAction_WAWebProtobufSyncAction_proto_msgTypes = make([]protoimpl.MessageInfo, 81)
 var file_waSyncAction_WAWebProtobufSyncAction_proto_goTypes = []any{
 	(CollectionName)(0),                                                // 0: WAWebProtobufSyncAction.CollectionName
 	(MutationProps)(0),                                                 // 1: WAWebProtobufSyncAction.MutationProps
@@ -7531,41 +7665,43 @@ var file_waSyncAction_WAWebProtobufSyncAction_proto_goTypes = []any{
 	(*RemoveRecentStickerAction)(nil),                                  // 72: WAWebProtobufSyncAction.RemoveRecentStickerAction
 	(*PrimaryVersionAction)(nil),                                       // 73: WAWebProtobufSyncAction.PrimaryVersionAction
 	(*NuxAction)(nil),                                                  // 74: WAWebProtobufSyncAction.NuxAction
-	(*TimeFormatAction)(nil),                                           // 75: WAWebProtobufSyncAction.TimeFormatAction
-	(*UserStatusMuteAction)(nil),                                       // 76: WAWebProtobufSyncAction.UserStatusMuteAction
-	(*SubscriptionAction)(nil),                                         // 77: WAWebProtobufSyncAction.SubscriptionAction
-	(*AgentAction)(nil),                                                // 78: WAWebProtobufSyncAction.AgentAction
-	(*AndroidUnsupportedActions)(nil),                                  // 79: WAWebProtobufSyncAction.AndroidUnsupportedActions
-	(*PrimaryFeature)(nil),                                             // 80: WAWebProtobufSyncAction.PrimaryFeature
-	(*KeyExpiration)(nil),                                              // 81: WAWebProtobufSyncAction.KeyExpiration
-	(*SyncActionMessage)(nil),                                          // 82: WAWebProtobufSyncAction.SyncActionMessage
-	(*SyncActionMessageRange)(nil),                                     // 83: WAWebProtobufSyncAction.SyncActionMessageRange
-	(*UnarchiveChatsSetting)(nil),                                      // 84: WAWebProtobufSyncAction.UnarchiveChatsSetting
-	(*DeleteChatAction)(nil),                                           // 85: WAWebProtobufSyncAction.DeleteChatAction
-	(*ClearChatAction)(nil),                                            // 86: WAWebProtobufSyncAction.ClearChatAction
-	(*MarkChatAsReadAction)(nil),                                       // 87: WAWebProtobufSyncAction.MarkChatAsReadAction
-	(*DeleteMessageForMeAction)(nil),                                   // 88: WAWebProtobufSyncAction.DeleteMessageForMeAction
-	(*ArchiveChatAction)(nil),                                          // 89: WAWebProtobufSyncAction.ArchiveChatAction
-	(*RecentEmojiWeightsAction)(nil),                                   // 90: WAWebProtobufSyncAction.RecentEmojiWeightsAction
-	(*LabelAssociationAction)(nil),                                     // 91: WAWebProtobufSyncAction.LabelAssociationAction
-	(*QuickReplyAction)(nil),                                           // 92: WAWebProtobufSyncAction.QuickReplyAction
-	(*LocaleSetting)(nil),                                              // 93: WAWebProtobufSyncAction.LocaleSetting
-	(*PushNameSetting)(nil),                                            // 94: WAWebProtobufSyncAction.PushNameSetting
-	(*PinAction)(nil),                                                  // 95: WAWebProtobufSyncAction.PinAction
-	(*MuteAction)(nil),                                                 // 96: WAWebProtobufSyncAction.MuteAction
-	(*ContactAction)(nil),                                              // 97: WAWebProtobufSyncAction.ContactAction
-	(*StarAction)(nil),                                                 // 98: WAWebProtobufSyncAction.StarAction
-	(*SyncActionData)(nil),                                             // 99: WAWebProtobufSyncAction.SyncActionData
-	(*CallLogRecord_ParticipantInfo)(nil),                              // 100: WAWebProtobufSyncAction.CallLogRecord.ParticipantInfo
-	(*FavoritesAction_Favorite)(nil),                                   // 101: WAWebProtobufSyncAction.FavoritesAction.Favorite
-	(*waChatLockSettings.ChatLockSettings)(nil),                        // 102: WAWebProtobufsChatLockSettings.ChatLockSettings
-	(*waDeviceCapabilities.DeviceCapabilities)(nil),                    // 103: WAWebProtobufsDeviceCapabilities.DeviceCapabilities
-	(*waCommon.MessageKey)(nil),                                        // 104: WACommon.MessageKey
+	(*OutContactAction)(nil),                                           // 75: WAWebProtobufSyncAction.OutContactAction
+	(*TimeFormatAction)(nil),                                           // 76: WAWebProtobufSyncAction.TimeFormatAction
+	(*UserStatusMuteAction)(nil),                                       // 77: WAWebProtobufSyncAction.UserStatusMuteAction
+	(*SubscriptionAction)(nil),                                         // 78: WAWebProtobufSyncAction.SubscriptionAction
+	(*AgentAction)(nil),                                                // 79: WAWebProtobufSyncAction.AgentAction
+	(*AndroidUnsupportedActions)(nil),                                  // 80: WAWebProtobufSyncAction.AndroidUnsupportedActions
+	(*PrimaryFeature)(nil),                                             // 81: WAWebProtobufSyncAction.PrimaryFeature
+	(*KeyExpiration)(nil),                                              // 82: WAWebProtobufSyncAction.KeyExpiration
+	(*SyncActionMessage)(nil),                                          // 83: WAWebProtobufSyncAction.SyncActionMessage
+	(*SyncActionMessageRange)(nil),                                     // 84: WAWebProtobufSyncAction.SyncActionMessageRange
+	(*UnarchiveChatsSetting)(nil),                                      // 85: WAWebProtobufSyncAction.UnarchiveChatsSetting
+	(*DeleteChatAction)(nil),                                           // 86: WAWebProtobufSyncAction.DeleteChatAction
+	(*ClearChatAction)(nil),                                            // 87: WAWebProtobufSyncAction.ClearChatAction
+	(*MarkChatAsReadAction)(nil),                                       // 88: WAWebProtobufSyncAction.MarkChatAsReadAction
+	(*DeleteMessageForMeAction)(nil),                                   // 89: WAWebProtobufSyncAction.DeleteMessageForMeAction
+	(*ArchiveChatAction)(nil),                                          // 90: WAWebProtobufSyncAction.ArchiveChatAction
+	(*RecentEmojiWeightsAction)(nil),                                   // 91: WAWebProtobufSyncAction.RecentEmojiWeightsAction
+	(*LabelAssociationAction)(nil),                                     // 92: WAWebProtobufSyncAction.LabelAssociationAction
+	(*QuickReplyAction)(nil),                                           // 93: WAWebProtobufSyncAction.QuickReplyAction
+	(*LocaleSetting)(nil),                                              // 94: WAWebProtobufSyncAction.LocaleSetting
+	(*PushNameSetting)(nil),                                            // 95: WAWebProtobufSyncAction.PushNameSetting
+	(*PinAction)(nil),                                                  // 96: WAWebProtobufSyncAction.PinAction
+	(*MuteAction)(nil),                                                 // 97: WAWebProtobufSyncAction.MuteAction
+	(*NctSaltSyncAction)(nil),                                          // 98: WAWebProtobufSyncAction.NctSaltSyncAction
+	(*ContactAction)(nil),                                              // 99: WAWebProtobufSyncAction.ContactAction
+	(*StarAction)(nil),                                                 // 100: WAWebProtobufSyncAction.StarAction
+	(*SyncActionData)(nil),                                             // 101: WAWebProtobufSyncAction.SyncActionData
+	(*CallLogRecord_ParticipantInfo)(nil),                              // 102: WAWebProtobufSyncAction.CallLogRecord.ParticipantInfo
+	(*FavoritesAction_Favorite)(nil),                                   // 103: WAWebProtobufSyncAction.FavoritesAction.Favorite
+	(*waChatLockSettings.ChatLockSettings)(nil),                        // 104: WAWebProtobufsChatLockSettings.ChatLockSettings
+	(*waDeviceCapabilities.DeviceCapabilities)(nil),                    // 105: WAWebProtobufsDeviceCapabilities.DeviceCapabilities
+	(*waCommon.MessageKey)(nil),                                        // 106: WACommon.MessageKey
 }
 var file_waSyncAction_WAWebProtobufSyncAction_proto_depIdxs = []int32{
 	4,   // 0: WAWebProtobufSyncAction.CallLogRecord.callResult:type_name -> WAWebProtobufSyncAction.CallLogRecord.CallResult
 	3,   // 1: WAWebProtobufSyncAction.CallLogRecord.silenceReason:type_name -> WAWebProtobufSyncAction.CallLogRecord.SilenceReason
-	100, // 2: WAWebProtobufSyncAction.CallLogRecord.participants:type_name -> WAWebProtobufSyncAction.CallLogRecord.ParticipantInfo
+	102, // 2: WAWebProtobufSyncAction.CallLogRecord.participants:type_name -> WAWebProtobufSyncAction.CallLogRecord.ParticipantInfo
 	2,   // 3: WAWebProtobufSyncAction.CallLogRecord.callType:type_name -> WAWebProtobufSyncAction.CallLogRecord.CallType
 	6,   // 4: WAWebProtobufSyncAction.SettingsSyncAction.bannerNotificationDisplayMode:type_name -> WAWebProtobufSyncAction.SettingsSyncAction.DisplayMode
 	6,   // 5: WAWebProtobufSyncAction.SettingsSyncAction.unreadCounterBadgeDisplayMode:type_name -> WAWebProtobufSyncAction.SettingsSyncAction.DisplayMode
@@ -7585,29 +7721,29 @@ var file_waSyncAction_WAWebProtobufSyncAction_proto_depIdxs = []int32{
 	20,  // 19: WAWebProtobufSyncAction.UsernameChatStartModeAction.chatStartMode:type_name -> WAWebProtobufSyncAction.UsernameChatStartModeAction.ChatStartMode
 	21,  // 20: WAWebProtobufSyncAction.LabelEditAction.type:type_name -> WAWebProtobufSyncAction.LabelEditAction.ListType
 	22,  // 21: WAWebProtobufSyncAction.PatchDebugData.senderPlatform:type_name -> WAWebProtobufSyncAction.PatchDebugData.Platform
-	98,  // 22: WAWebProtobufSyncAction.SyncActionValue.starAction:type_name -> WAWebProtobufSyncAction.StarAction
-	97,  // 23: WAWebProtobufSyncAction.SyncActionValue.contactAction:type_name -> WAWebProtobufSyncAction.ContactAction
-	96,  // 24: WAWebProtobufSyncAction.SyncActionValue.muteAction:type_name -> WAWebProtobufSyncAction.MuteAction
-	95,  // 25: WAWebProtobufSyncAction.SyncActionValue.pinAction:type_name -> WAWebProtobufSyncAction.PinAction
-	94,  // 26: WAWebProtobufSyncAction.SyncActionValue.pushNameSetting:type_name -> WAWebProtobufSyncAction.PushNameSetting
-	92,  // 27: WAWebProtobufSyncAction.SyncActionValue.quickReplyAction:type_name -> WAWebProtobufSyncAction.QuickReplyAction
-	90,  // 28: WAWebProtobufSyncAction.SyncActionValue.recentEmojiWeightsAction:type_name -> WAWebProtobufSyncAction.RecentEmojiWeightsAction
+	100, // 22: WAWebProtobufSyncAction.SyncActionValue.starAction:type_name -> WAWebProtobufSyncAction.StarAction
+	99,  // 23: WAWebProtobufSyncAction.SyncActionValue.contactAction:type_name -> WAWebProtobufSyncAction.ContactAction
+	97,  // 24: WAWebProtobufSyncAction.SyncActionValue.muteAction:type_name -> WAWebProtobufSyncAction.MuteAction
+	96,  // 25: WAWebProtobufSyncAction.SyncActionValue.pinAction:type_name -> WAWebProtobufSyncAction.PinAction
+	95,  // 26: WAWebProtobufSyncAction.SyncActionValue.pushNameSetting:type_name -> WAWebProtobufSyncAction.PushNameSetting
+	93,  // 27: WAWebProtobufSyncAction.SyncActionValue.quickReplyAction:type_name -> WAWebProtobufSyncAction.QuickReplyAction
+	91,  // 28: WAWebProtobufSyncAction.SyncActionValue.recentEmojiWeightsAction:type_name -> WAWebProtobufSyncAction.RecentEmojiWeightsAction
 	37,  // 29: WAWebProtobufSyncAction.SyncActionValue.labelEditAction:type_name -> WAWebProtobufSyncAction.LabelEditAction
-	91,  // 30: WAWebProtobufSyncAction.SyncActionValue.labelAssociationAction:type_name -> WAWebProtobufSyncAction.LabelAssociationAction
-	93,  // 31: WAWebProtobufSyncAction.SyncActionValue.localeSetting:type_name -> WAWebProtobufSyncAction.LocaleSetting
-	89,  // 32: WAWebProtobufSyncAction.SyncActionValue.archiveChatAction:type_name -> WAWebProtobufSyncAction.ArchiveChatAction
-	88,  // 33: WAWebProtobufSyncAction.SyncActionValue.deleteMessageForMeAction:type_name -> WAWebProtobufSyncAction.DeleteMessageForMeAction
-	81,  // 34: WAWebProtobufSyncAction.SyncActionValue.keyExpiration:type_name -> WAWebProtobufSyncAction.KeyExpiration
-	87,  // 35: WAWebProtobufSyncAction.SyncActionValue.markChatAsReadAction:type_name -> WAWebProtobufSyncAction.MarkChatAsReadAction
-	86,  // 36: WAWebProtobufSyncAction.SyncActionValue.clearChatAction:type_name -> WAWebProtobufSyncAction.ClearChatAction
-	85,  // 37: WAWebProtobufSyncAction.SyncActionValue.deleteChatAction:type_name -> WAWebProtobufSyncAction.DeleteChatAction
-	84,  // 38: WAWebProtobufSyncAction.SyncActionValue.unarchiveChatsSetting:type_name -> WAWebProtobufSyncAction.UnarchiveChatsSetting
-	80,  // 39: WAWebProtobufSyncAction.SyncActionValue.primaryFeature:type_name -> WAWebProtobufSyncAction.PrimaryFeature
-	79,  // 40: WAWebProtobufSyncAction.SyncActionValue.androidUnsupportedActions:type_name -> WAWebProtobufSyncAction.AndroidUnsupportedActions
-	78,  // 41: WAWebProtobufSyncAction.SyncActionValue.agentAction:type_name -> WAWebProtobufSyncAction.AgentAction
-	77,  // 42: WAWebProtobufSyncAction.SyncActionValue.subscriptionAction:type_name -> WAWebProtobufSyncAction.SubscriptionAction
-	76,  // 43: WAWebProtobufSyncAction.SyncActionValue.userStatusMuteAction:type_name -> WAWebProtobufSyncAction.UserStatusMuteAction
-	75,  // 44: WAWebProtobufSyncAction.SyncActionValue.timeFormatAction:type_name -> WAWebProtobufSyncAction.TimeFormatAction
+	92,  // 30: WAWebProtobufSyncAction.SyncActionValue.labelAssociationAction:type_name -> WAWebProtobufSyncAction.LabelAssociationAction
+	94,  // 31: WAWebProtobufSyncAction.SyncActionValue.localeSetting:type_name -> WAWebProtobufSyncAction.LocaleSetting
+	90,  // 32: WAWebProtobufSyncAction.SyncActionValue.archiveChatAction:type_name -> WAWebProtobufSyncAction.ArchiveChatAction
+	89,  // 33: WAWebProtobufSyncAction.SyncActionValue.deleteMessageForMeAction:type_name -> WAWebProtobufSyncAction.DeleteMessageForMeAction
+	82,  // 34: WAWebProtobufSyncAction.SyncActionValue.keyExpiration:type_name -> WAWebProtobufSyncAction.KeyExpiration
+	88,  // 35: WAWebProtobufSyncAction.SyncActionValue.markChatAsReadAction:type_name -> WAWebProtobufSyncAction.MarkChatAsReadAction
+	87,  // 36: WAWebProtobufSyncAction.SyncActionValue.clearChatAction:type_name -> WAWebProtobufSyncAction.ClearChatAction
+	86,  // 37: WAWebProtobufSyncAction.SyncActionValue.deleteChatAction:type_name -> WAWebProtobufSyncAction.DeleteChatAction
+	85,  // 38: WAWebProtobufSyncAction.SyncActionValue.unarchiveChatsSetting:type_name -> WAWebProtobufSyncAction.UnarchiveChatsSetting
+	81,  // 39: WAWebProtobufSyncAction.SyncActionValue.primaryFeature:type_name -> WAWebProtobufSyncAction.PrimaryFeature
+	80,  // 40: WAWebProtobufSyncAction.SyncActionValue.androidUnsupportedActions:type_name -> WAWebProtobufSyncAction.AndroidUnsupportedActions
+	79,  // 41: WAWebProtobufSyncAction.SyncActionValue.agentAction:type_name -> WAWebProtobufSyncAction.AgentAction
+	78,  // 42: WAWebProtobufSyncAction.SyncActionValue.subscriptionAction:type_name -> WAWebProtobufSyncAction.SubscriptionAction
+	77,  // 43: WAWebProtobufSyncAction.SyncActionValue.userStatusMuteAction:type_name -> WAWebProtobufSyncAction.UserStatusMuteAction
+	76,  // 44: WAWebProtobufSyncAction.SyncActionValue.timeFormatAction:type_name -> WAWebProtobufSyncAction.TimeFormatAction
 	74,  // 45: WAWebProtobufSyncAction.SyncActionValue.nuxAction:type_name -> WAWebProtobufSyncAction.NuxAction
 	73,  // 46: WAWebProtobufSyncAction.SyncActionValue.primaryVersionAction:type_name -> WAWebProtobufSyncAction.PrimaryVersionAction
 	71,  // 47: WAWebProtobufSyncAction.SyncActionValue.stickerAction:type_name -> WAWebProtobufSyncAction.StickerAction
@@ -7628,10 +7764,10 @@ var file_waSyncAction_WAWebProtobufSyncAction_proto_depIdxs = []int32{
 	56,  // 62: WAWebProtobufSyncAction.SyncActionValue.paymentInfoAction:type_name -> WAWebProtobufSyncAction.PaymentInfoAction
 	53,  // 63: WAWebProtobufSyncAction.SyncActionValue.customPaymentMethodsAction:type_name -> WAWebProtobufSyncAction.CustomPaymentMethodsAction
 	52,  // 64: WAWebProtobufSyncAction.SyncActionValue.lockChatAction:type_name -> WAWebProtobufSyncAction.LockChatAction
-	102, // 65: WAWebProtobufSyncAction.SyncActionValue.chatLockSettings:type_name -> WAWebProtobufsChatLockSettings.ChatLockSettings
+	104, // 65: WAWebProtobufSyncAction.SyncActionValue.chatLockSettings:type_name -> WAWebProtobufsChatLockSettings.ChatLockSettings
 	51,  // 66: WAWebProtobufSyncAction.SyncActionValue.wamoUserIdentifierAction:type_name -> WAWebProtobufSyncAction.WamoUserIdentifierAction
 	50,  // 67: WAWebProtobufSyncAction.SyncActionValue.privacySettingDisableLinkPreviewsAction:type_name -> WAWebProtobufSyncAction.PrivacySettingDisableLinkPreviewsAction
-	103, // 68: WAWebProtobufSyncAction.SyncActionValue.deviceCapabilities:type_name -> WAWebProtobufsDeviceCapabilities.DeviceCapabilities
+	105, // 68: WAWebProtobufSyncAction.SyncActionValue.deviceCapabilities:type_name -> WAWebProtobufsDeviceCapabilities.DeviceCapabilities
 	33,  // 69: WAWebProtobufSyncAction.SyncActionValue.noteEditAction:type_name -> WAWebProtobufSyncAction.NoteEditAction
 	48,  // 70: WAWebProtobufSyncAction.SyncActionValue.favoritesAction:type_name -> WAWebProtobufSyncAction.FavoritesAction
 	32,  // 71: WAWebProtobufSyncAction.SyncActionValue.merchantPaymentPartnerAction:type_name -> WAWebProtobufSyncAction.MerchantPaymentPartnerAction
@@ -7653,25 +7789,27 @@ var file_waSyncAction_WAWebProtobufSyncAction_proto_depIdxs = []int32{
 	41,  // 87: WAWebProtobufSyncAction.SyncActionValue.aiThreadRenameAction:type_name -> WAWebProtobufSyncAction.AiThreadRenameAction
 	25,  // 88: WAWebProtobufSyncAction.SyncActionValue.interactiveMessageAction:type_name -> WAWebProtobufSyncAction.InteractiveMessageAction
 	24,  // 89: WAWebProtobufSyncAction.SyncActionValue.settingsSyncAction:type_name -> WAWebProtobufSyncAction.SettingsSyncAction
-	43,  // 90: WAWebProtobufSyncAction.BusinessBroadcastListAction.participants:type_name -> WAWebProtobufSyncAction.BroadcastListParticipant
-	101, // 91: WAWebProtobufSyncAction.FavoritesAction.favorites:type_name -> WAWebProtobufSyncAction.FavoritesAction.Favorite
-	54,  // 92: WAWebProtobufSyncAction.CustomPaymentMethodsAction.customPaymentMethods:type_name -> WAWebProtobufSyncAction.CustomPaymentMethod
-	55,  // 93: WAWebProtobufSyncAction.CustomPaymentMethod.metadata:type_name -> WAWebProtobufSyncAction.CustomPaymentMethodMetadata
-	23,  // 94: WAWebProtobufSyncAction.CallLogAction.callLogRecord:type_name -> WAWebProtobufSyncAction.CallLogRecord
-	104, // 95: WAWebProtobufSyncAction.SyncActionMessage.key:type_name -> WACommon.MessageKey
-	82,  // 96: WAWebProtobufSyncAction.SyncActionMessageRange.messages:type_name -> WAWebProtobufSyncAction.SyncActionMessage
-	83,  // 97: WAWebProtobufSyncAction.DeleteChatAction.messageRange:type_name -> WAWebProtobufSyncAction.SyncActionMessageRange
-	83,  // 98: WAWebProtobufSyncAction.ClearChatAction.messageRange:type_name -> WAWebProtobufSyncAction.SyncActionMessageRange
-	83,  // 99: WAWebProtobufSyncAction.MarkChatAsReadAction.messageRange:type_name -> WAWebProtobufSyncAction.SyncActionMessageRange
-	83,  // 100: WAWebProtobufSyncAction.ArchiveChatAction.messageRange:type_name -> WAWebProtobufSyncAction.SyncActionMessageRange
-	39,  // 101: WAWebProtobufSyncAction.RecentEmojiWeightsAction.weights:type_name -> WAWebProtobufSyncAction.RecentEmojiWeight
-	40,  // 102: WAWebProtobufSyncAction.SyncActionData.value:type_name -> WAWebProtobufSyncAction.SyncActionValue
-	4,   // 103: WAWebProtobufSyncAction.CallLogRecord.ParticipantInfo.callResult:type_name -> WAWebProtobufSyncAction.CallLogRecord.CallResult
-	104, // [104:104] is the sub-list for method output_type
-	104, // [104:104] is the sub-list for method input_type
-	104, // [104:104] is the sub-list for extension type_name
-	104, // [104:104] is the sub-list for extension extendee
-	0,   // [0:104] is the sub-list for field type_name
+	75,  // 90: WAWebProtobufSyncAction.SyncActionValue.outContactAction:type_name -> WAWebProtobufSyncAction.OutContactAction
+	98,  // 91: WAWebProtobufSyncAction.SyncActionValue.nctSaltSyncAction:type_name -> WAWebProtobufSyncAction.NctSaltSyncAction
+	43,  // 92: WAWebProtobufSyncAction.BusinessBroadcastListAction.participants:type_name -> WAWebProtobufSyncAction.BroadcastListParticipant
+	103, // 93: WAWebProtobufSyncAction.FavoritesAction.favorites:type_name -> WAWebProtobufSyncAction.FavoritesAction.Favorite
+	54,  // 94: WAWebProtobufSyncAction.CustomPaymentMethodsAction.customPaymentMethods:type_name -> WAWebProtobufSyncAction.CustomPaymentMethod
+	55,  // 95: WAWebProtobufSyncAction.CustomPaymentMethod.metadata:type_name -> WAWebProtobufSyncAction.CustomPaymentMethodMetadata
+	23,  // 96: WAWebProtobufSyncAction.CallLogAction.callLogRecord:type_name -> WAWebProtobufSyncAction.CallLogRecord
+	106, // 97: WAWebProtobufSyncAction.SyncActionMessage.key:type_name -> WACommon.MessageKey
+	83,  // 98: WAWebProtobufSyncAction.SyncActionMessageRange.messages:type_name -> WAWebProtobufSyncAction.SyncActionMessage
+	84,  // 99: WAWebProtobufSyncAction.DeleteChatAction.messageRange:type_name -> WAWebProtobufSyncAction.SyncActionMessageRange
+	84,  // 100: WAWebProtobufSyncAction.ClearChatAction.messageRange:type_name -> WAWebProtobufSyncAction.SyncActionMessageRange
+	84,  // 101: WAWebProtobufSyncAction.MarkChatAsReadAction.messageRange:type_name -> WAWebProtobufSyncAction.SyncActionMessageRange
+	84,  // 102: WAWebProtobufSyncAction.ArchiveChatAction.messageRange:type_name -> WAWebProtobufSyncAction.SyncActionMessageRange
+	39,  // 103: WAWebProtobufSyncAction.RecentEmojiWeightsAction.weights:type_name -> WAWebProtobufSyncAction.RecentEmojiWeight
+	40,  // 104: WAWebProtobufSyncAction.SyncActionData.value:type_name -> WAWebProtobufSyncAction.SyncActionValue
+	4,   // 105: WAWebProtobufSyncAction.CallLogRecord.ParticipantInfo.callResult:type_name -> WAWebProtobufSyncAction.CallLogRecord.CallResult
+	106, // [106:106] is the sub-list for method output_type
+	106, // [106:106] is the sub-list for method input_type
+	106, // [106:106] is the sub-list for extension type_name
+	106, // [106:106] is the sub-list for extension extendee
+	0,   // [0:106] is the sub-list for field type_name
 }
 
 func init() { file_waSyncAction_WAWebProtobufSyncAction_proto_init() }
@@ -7685,7 +7823,7 @@ func file_waSyncAction_WAWebProtobufSyncAction_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_waSyncAction_WAWebProtobufSyncAction_proto_rawDesc), len(file_waSyncAction_WAWebProtobufSyncAction_proto_rawDesc)),
 			NumEnums:      23,
-			NumMessages:   79,
+			NumMessages:   81,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

@@ -179,7 +179,6 @@ type (
 	BotSuggestedPromptMetadata                                                                                          = waBotMetadata.BotSuggestedPromptMetadata
 	BotPluginMetadata                                                                                                   = waBotMetadata.BotPluginMetadata
 	BotMetadata                                                                                                         = waBotMetadata.BotMetadata
-	BotAvatarMetadata                                                                                                   = waBotMetadata.BotAvatarMetadata
 	ActionLink                                                                                                          = waE2E.ActionLink
 	TemplateButton                                                                                                      = waE2E.TemplateButton
 	TemplateButton_QuickReplyButton_                                                                                    = waE2E.TemplateButton_QuickReplyButton_

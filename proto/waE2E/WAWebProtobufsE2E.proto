@@ -410,10 +410,17 @@ message InteractiveMessage {
 		NativeFlowMessage nativeFlowMessage = 6;
 		CarouselMessage carouselMessage = 7;
 	}
+	
+	message BloksWidget {
+        optional string uuid = 1;
+        optional string data = 2;
+        optional string type = 3;
+    }
 
 	optional Header header = 1;
 	optional Body body = 2;
 	optional Footer footer = 3;
+	optional BloksWidget bloksWidget = 8;
 	optional ContextInfo contextInfo = 15;
 	optional UrlTrackingMap urlTrackingMap = 16;
 }
@@ -533,6 +540,7 @@ message PaymentInviteMessage {
 	optional ServiceType serviceType = 1;
 	optional int64 expiryTimestamp = 2;
 	optional bool incentiveEligible = 3;
+	optional string referralId = 4;
 }
 
 message HighlyStructuredMessage {
@@ -641,6 +649,19 @@ message PeerDataOperationRequestResponseMessage {
 			optional string nonce = 1;
 		}
 
+		 message FlowResponsesCsvBundle {
+            optional string flowId = 1;
+            optional string galaxyFlowDownloadRequestId = 2;
+            optional string fileName = 3;
+            optional string mimetype = 4;
+            optional bytes fileSha256 = 5;
+            optional bytes mediaKey = 6;
+            optional bytes fileEncSha256 = 7;
+            optional string directPath = 8;
+            optional int64 mediaKeyTimestamp = 9;
+            optional uint64 fileLength = 10;
+        }
+
 		message WaffleNonceFetchResponse {
 			optional string nonce = 1;
 			optional string waEntFbid = 2;
@@ -659,6 +680,9 @@ message PeerDataOperationRequestResponseMessage {
 			message PaymentLinkPreviewMetadata {
 				optional bool isBusinessVerified = 1;
 				optional string providerName = 2;
+				optional string amount = 3;
+                optional string offset = 4;
+                optional string currency = 5;
 			}
 
 			message LinkPreviewHighQualityThumbnail {
@@ -691,6 +715,8 @@ message PeerDataOperationRequestResponseMessage {
 		optional SyncDSnapshotFatalRecoveryResponse syncdSnapshotFatalRecoveryResponse = 8;
 		optional CompanionCanonicalUserNonceFetchResponse companionCanonicalUserNonceFetchRequestResponse = 9;
 		optional HistorySyncChunkRetryResponse historySyncChunkRetryResponse = 10;
+		optional FlowResponsesCsvBundle flowResponsesCsvBundle = 11;
+
 	}
 
 	optional PeerDataOperationRequestType peerDataOperationRequestType = 1;
@@ -702,11 +728,14 @@ message PeerDataOperationRequestMessage {
 	message GalaxyFlowAction {
 		enum GalaxyFlowActionType {
 			NOTIFY_LAUNCH = 1;
+			DOWNLOAD_RESPONSES = 2;
 		}
 
 		optional GalaxyFlowActionType type = 1;
 		optional string flowID = 2;
 		optional string stanzaID = 3;
+		optional string galaxyFlowDownloadRequestId = 4;
+        optional string agmId = 5;
 	}
 
 	message HistorySyncChunkRetryRequest {
@@ -728,6 +757,7 @@ message PeerDataOperationRequestMessage {
 	message FullHistorySyncOnDemandRequest {
 		optional FullHistorySyncOnDemandRequestMetadata requestMetadata = 1;
 		optional WACompanionReg.DeviceProps.HistorySyncConfig historySyncConfig = 2;
+		optional FullHistorySyncOnDemandConfig fullHistorySyncOnDemandConfig = 3;
 	}
 
 	message HistorySyncOnDemandRequest {
@@ -757,6 +787,10 @@ message PeerDataOperationRequestMessage {
 	optional SyncDCollectionFatalRecoveryRequest syncdCollectionFatalRecoveryRequest = 7;
 	optional HistorySyncChunkRetryRequest historySyncChunkRetryRequest = 8;
 	optional GalaxyFlowAction galaxyFlowAction = 9;
+	optional CompanionCanonicalUserNonceFetchRequest companionCanonicalUserNonceFetchRequest = 10;
+    message CompanionCanonicalUserNonceFetchRequest {
+        optional string registrationTraceId = 1;
+    }
 }
 
 message RequestWelcomeMessageMetadata {
@@ -797,6 +831,7 @@ message ProtocolMessage {
 		AI_QUERY_FANOUT = 29;
 		GROUP_MEMBER_LABEL_CHANGE = 30;
 		AI_MEDIA_COLLECTION_MESSAGE = 31;
+		MESSAGE_UNSCHEDULE = 32;
 	}
 
 	optional WACommon.MessageKey key = 1;
@@ -824,6 +859,7 @@ message ProtocolMessage {
 	optional AIQueryFanout aiQueryFanout = 26;
 	optional MemberLabel memberLabel = 27;
 	optional WAWebProtobufsAICommon.AIMediaCollectionMessage aiMediaCollectionMessage = 28;
+	optional uint32 afterReadDurationMs = 29;
 }
 
 message CloudAPIThreadControlNotification {
@@ -1913,8 +1949,15 @@ message InitialSecurityNotificationSettingSync {
 	optional bool securityNotificationEnabled = 1;
 }
 
+message FullHistorySyncOnDemandConfig {
+    optional uint64 historyFromTimestamp = 1;
+    optional uint32 historyDurationDays = 2;
+}
+
 message FullHistorySyncOnDemandRequestMetadata {
 	optional string requestID = 1;
+	optional string businessProduct = 2;
+    optional bytes opaqueClientData = 3;
 }
 
 message AppStateFatalExceptionNotification {
@@ -1989,6 +2032,7 @@ message Call {
 	optional string nativeFlowCallButtonPayload = 8;
 	optional string deeplinkPayload = 9;
 	optional MessageContextInfo messageContextInfo = 10;
+	optional uint32 callEntryPoint = 11;
 }
 
 message AudioMessage {
@@ -2179,6 +2223,92 @@ message Money {
 	optional int64 value = 1;
 	optional uint32 offset = 2;
 	optional string currencyCode = 3;
+}
+
+message MsgOpaqueData {
+    optional string body = 1;
+    optional string caption = 3;
+    optional double lng = 5;
+    optional bool isLive = 6;
+    optional double lat = 7;
+    optional int32 paymentAmount1000 = 8;
+    optional string paymentNoteMsgBody = 9;
+    optional string matchedText = 11;
+    optional string title = 12;
+    optional string description = 13;
+    optional bytes futureproofBuffer = 14;
+    optional string clientUrl = 15;
+    optional string loc = 16;
+    optional string pollName = 17;
+    repeated PollOption pollOptions = 18;
+    optional uint32 pollSelectableOptionsCount = 20;
+    optional bytes messageSecret = 21;
+    optional string originalSelfAuthor = 51;
+    optional int64 senderTimestampMs = 22;
+    optional string pollUpdateParentKey = 23;
+    optional PollEncValue encPollVote = 24;
+    optional bool isSentCagPollCreation = 28;
+    optional PollContentType pollContentType = 42;
+    optional PollType pollType = 46;
+    optional int32 correctOptionIndex = 47;
+    optional PollVotesSnapshot pollVotesSnapshot = 41;
+    optional string encReactionTargetMessageKey = 25;
+    optional bytes encReactionEncPayload = 26;
+    optional bytes encReactionEncIv = 27;
+    optional bytes botMessageSecret = 29;
+    optional string targetMessageKey = 30;
+    optional bytes encPayload = 31;
+    optional bytes encIv = 32;
+    optional string eventName = 33;
+    optional bool isEventCanceled = 34;
+    optional string eventDescription = 35;
+    optional string eventJoinLink = 36;
+    optional int64 eventStartTime = 37;
+    optional EventLocation eventLocation = 38;
+    optional int64 eventEndTime = 40;
+    optional bool eventIsScheduledCall = 44;
+    optional bool eventExtraGuestsAllowed = 45;
+    optional bytes plainProtobufBytes = 43;
+    optional string quarantineExtractedText = 48;
+	optional int64 pollEndTime = 49;
+    optional bool pollHideVoterNames = 50;
+    message EventLocation {
+        optional double degreesLatitude = 1;
+        optional double degreesLongitude = 2;
+        optional string name = 3;
+        optional string address = 4;
+        optional string url = 5;
+        optional bytes jpegThumbnail = 6;
+    }
+    
+    enum PollContentType {
+        UNKNOWN = 0;
+        TEXT = 1;
+        IMAGE = 2;
+    }
+    message PollOption {
+        optional string name = 1;
+        optional string hash = 2;
+    }
+    
+    enum PollType {
+        POLL = 0;
+        QUIZ = 1;
+    }
+    message PollVoteSnapshot {
+        optional MsgOpaqueData.PollOption option = 1;
+        optional int32 optionVoteCount = 2;
+    }
+    
+    message PollVotesSnapshot {
+        repeated MsgOpaqueData.PollVoteSnapshot pollVotes = 1;
+    }
+    
+}
+
+message MsgRowOpaqueData {
+    optional MsgOpaqueData currentMsg = 1;
+    optional MsgOpaqueData quotedMsg = 2;
 }
 
 message ActionLink {
