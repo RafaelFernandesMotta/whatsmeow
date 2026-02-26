@@ -341,6 +341,8 @@ message StatusPrivacyAction {
 
 	optional StatusDistributionMode mode = 1;
 	repeated string userJID = 2;
+	optional bool shareToFB = 3;
+    optional bool shareToIG = 4;
 }
 
 message MarketingMessageAction {

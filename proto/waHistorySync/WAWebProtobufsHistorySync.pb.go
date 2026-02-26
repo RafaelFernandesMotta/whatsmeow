@@ -6,14 +6,14 @@
 
 package waHistorySync
 
-import (
+import (	
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-
+	
 	waChatLockSettings "go.mau.fi/whatsmeow/proto/waChatLockSettings"
 	waCommon "go.mau.fi/whatsmeow/proto/waCommon"
 	waE2E "go.mau.fi/whatsmeow/proto/waE2E"
@@ -469,6 +469,7 @@ type HistorySync struct {
 	CompanionMetaNonce                   *string                         `protobuf:"bytes,16,opt,name=companionMetaNonce" json:"companionMetaNonce,omitempty"`
 	ShareableChatIdentifierEncryptionKey []byte                          `protobuf:"bytes,17,opt,name=shareableChatIdentifierEncryptionKey" json:"shareableChatIdentifierEncryptionKey,omitempty"`
 	Accounts                             []*Account                      `protobuf:"bytes,18,rep,name=accounts" json:"accounts,omitempty"`
+	NctSalt                              []byte                          `protobuf:"bytes,19,opt,name=nctSalt" json:"nctSalt,omitempty"`
 	unknownFields                        protoimpl.UnknownFields
 	sizeCache                            protoimpl.SizeCache
 }
@@ -618,6 +619,13 @@ func (x *HistorySync) GetShareableChatIdentifierEncryptionKey() []byte {
 func (x *HistorySync) GetAccounts() []*Account {
 	if x != nil {
 		return x.Accounts
+	}
+	return nil
+}
+
+func (x *HistorySync) GetNctSalt() []byte {
+	if x != nil {
+		return x.NctSalt
 	}
 	return nil
 }
@@ -2090,7 +2098,7 @@ var File_waHistorySync_WAWebProtobufsHistorySync_proto protoreflect.FileDescript
 
 const file_waHistorySync_WAWebProtobufsHistorySync_proto_rawDesc = "" +
 	"\n" +
-	"-waHistorySync/WAWebProtobufsHistorySync.proto\x12\x19WAWebProtobufsHistorySync\x1a*waSyncAction/WAWebProtobufSyncAction.proto\x1a7waChatLockSettings/WAWebProtobufsChatLockSettings.proto\x1a\x1dwaE2E/WAWebProtobufsE2E.proto\x1a\x17waCommon/WACommon.proto\x1a\x1dwaWeb/WAWebProtobufsWeb.proto\"\x97\v\n" +
+	"-waHistorySync/WAWebProtobufsHistorySync.proto\x12\x19WAWebProtobufsHistorySync\x1a*waSyncAction/WAWebProtobufSyncAction.proto\x1a7waChatLockSettings/WAWebProtobufsChatLockSettings.proto\x1a\x1dwaE2E/WAWebProtobufsE2E.proto\x1a\x17waCommon/WACommon.proto\x1a\x1dwaWeb/WAWebProtobufsWeb.proto\"\xb1\v\n" +
 	"\vHistorySync\x12R\n" +
 	"\bsyncType\x18\x01 \x02(\x0e26.WAWebProtobufsHistorySync.HistorySync.HistorySyncTypeR\bsyncType\x12M\n" +
 	"\rconversations\x18\x02 \x03(\v2'.WAWebProtobufsHistorySync.ConversationR\rconversations\x12M\n" +
@@ -2111,7 +2119,8 @@ const file_waHistorySync_WAWebProtobufsHistorySync_proto_rawDesc = "" +
 	"\x18phoneNumberToLidMappings\x18\x0f \x03(\v22.WAWebProtobufsHistorySync.PhoneNumberToLIDMappingR\x18phoneNumberToLidMappings\x12.\n" +
 	"\x12companionMetaNonce\x18\x10 \x01(\tR\x12companionMetaNonce\x12R\n" +
 	"$shareableChatIdentifierEncryptionKey\x18\x11 \x01(\fR$shareableChatIdentifierEncryptionKey\x12>\n" +
-	"\baccounts\x18\x12 \x03(\v2\".WAWebProtobufsHistorySync.AccountR\baccounts\"7\n" +
+	"\baccounts\x18\x12 \x03(\v2\".WAWebProtobufsHistorySync.AccountR\baccounts\x12\x18\n" +
+	"\anctSalt\x18\x13 \x01(\fR\anctSalt\"7\n" +
 	"\x12BotAIWaitListState\x12\x0f\n" +
 	"\vIN_WAITLIST\x10\x00\x12\x10\n" +
 	"\fAI_AVAILABLE\x10\x01\"\x8a\x01\n" +

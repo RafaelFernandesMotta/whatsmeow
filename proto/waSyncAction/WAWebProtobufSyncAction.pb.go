@@ -2752,6 +2752,8 @@ type StatusPrivacyAction struct {
 	state         protoimpl.MessageState                      `protogen:"open.v1"`
 	Mode          *StatusPrivacyAction_StatusDistributionMode `protobuf:"varint,1,opt,name=mode,enum=WAWebProtobufSyncAction.StatusPrivacyAction_StatusDistributionMode" json:"mode,omitempty"`
 	UserJID       []string                                    `protobuf:"bytes,2,rep,name=userJID" json:"userJID,omitempty"`
+	ShareToFB     *bool                                       `protobuf:"varint,3,opt,name=shareToFB" json:"shareToFB,omitempty"`
+	ShareToIG     *bool                                       `protobuf:"varint,4,opt,name=shareToIG" json:"shareToIG,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2798,6 +2800,20 @@ func (x *StatusPrivacyAction) GetUserJID() []string {
 		return x.UserJID
 	}
 	return nil
+}
+
+func (x *StatusPrivacyAction) GetShareToFB() bool {
+	if x != nil && x.ShareToFB != nil {
+		return *x.ShareToFB
+	}
+	return false
+}
+
+func (x *StatusPrivacyAction) GetShareToIG() bool {
+	if x != nil && x.ShareToIG != nil {
+		return *x.ShareToIG
+	}
+	return false
 }
 
 type MarketingMessageAction struct {
@@ -7351,10 +7367,12 @@ const file_waSyncAction_WAWebProtobufSyncAction_proto_rawDesc = "" +
 	"\bNoteType\x12\x10\n" +
 	"\fUNSTRUCTURED\x10\x01\x12\x0e\n" +
 	"\n" +
-	"STRUCTURED\x10\x02\"\xe2\x01\n" +
+	"STRUCTURED\x10\x02\"\x9e\x02\n" +
 	"\x13StatusPrivacyAction\x12W\n" +
 	"\x04mode\x18\x01 \x01(\x0e2C.WAWebProtobufSyncAction.StatusPrivacyAction.StatusDistributionModeR\x04mode\x12\x18\n" +
-	"\auserJID\x18\x02 \x03(\tR\auserJID\"X\n" +
+	"\auserJID\x18\x02 \x03(\tR\auserJID\x12\x1c\n" +
+	"\tshareToFB\x18\x03 \x01(\bR\tshareToFB\x12\x1c\n" +
+	"\tshareToIG\x18\x04 \x01(\bR\tshareToIG\"X\n" +
 	"\x16StatusDistributionMode\x12\x0e\n" +
 	"\n" +
 	"ALLOW_LIST\x10\x00\x12\r\n" +
