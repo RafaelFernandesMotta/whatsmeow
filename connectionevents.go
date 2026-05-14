@@ -65,7 +65,16 @@ func (cli *Client) handleStreamError(ctx context.Context, node *waBinary.Node) {
 		}
 	default:
 		cli.Log.Errorf("Unknown stream error: %s", node.XMLString())
-		go cli.dispatchEvent(&events.StreamError{Code: code, Raw: node})
+
+		if !cli.isReconnecting.CompareAndSwap(0, 1) {
+			cli.Log.Infof("Stream error ignored: reconnection already in progress.")
+			return
+		}
+
+		go func() {
+			defer cli.isReconnecting.Store(0)
+			cli.dispatchEvent(&events.StreamError{Code: code, Raw: node})
+		}()
 	}
 }
 
